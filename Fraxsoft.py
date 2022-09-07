@@ -1,4 +1,7 @@
+from msilib.schema import ComboBox
+from queue import Empty
 from tkinter import *
+from tkinter.ttk import Combobox
 from PIL import Image, ImageTk
 from tkinter import filedialog
 from tkinter import messagebox
@@ -50,7 +53,7 @@ class MainBackgraound:
     def bg2(self):
         self.master.geometry("1280x720")
         self.master.configure(bg = "#253132")
-        self.MainBG = Canvas(self.master,bg = "#253132", height = 720, width = 920, bd = 0, highlightthickness = 0, relief = "ridge")
+        self.MainBG = Canvas(self.master,bg = "#253132", height = 720, width = 1280, bd = 0, highlightthickness = 0, relief = "ridge")
         self.MainBG.place(x = 0, y = 0)
         self.bg2_img = ImageTk.PhotoImage(file = f"background2.png")
         background = self.MainBG.create_image(640.0, 366.0, image=self.bg2_img)
@@ -65,6 +68,20 @@ class ConverterWindow:
         self.entryBox1()
     def btn_clicked(self):
         pass
+    def btn_Apply(self):
+        global Values
+        Values = [self.Vin.get(), self.Vo.get(), self.Po.get(), self.Vripple.get(), self.Cripple.get(), self.Topology.get()]
+        if Values.__contains__(""):
+            messagebox.showwarning(title = "Warning", message="Fill all entry values")
+    def btn_Discard(self):
+        self.Vin.delete(0,END) 
+        self.Vo.delete(0,END)
+        self.Po.delete(0,END)
+        self.Vripple.delete(0,END)
+        self.Cripple.delete(0,END)
+        Values = [self.Vin.get(), self.Vo.get(), self.Po.get(), self.Vripple.get(), self.Cripple.get(), self.Topology.get()]
+        
+
     def entryBox1(self):
         # Labels
         self.canva.create_text(165.0, 139.5, text = "Input Voltage    =", fill = "#ffffff", font = ("Calibri", int(12.0)))
@@ -72,7 +89,7 @@ class ConverterWindow:
         self.canva.create_text(165.0, 193.5, text = "Output Power   =", fill = "#ffffff", font = ("Calibri", int(12.0)))
         self.canva.create_text(165.0, 220.5, text = "Voltage ripple   =", fill = "#ffffff", font = ("Calibri", int(12.0)))
         self.canva.create_text(165.0, 247.5, text = "Current ripple   =", fill = "#ffffff", font = ("Calibri", int(12.0)))
-        self.canva.create_text(165.0, 274.5, text = "Topology            ", fill = "#ffffff", font = ("Calibri", int(12.0)))
+        self.canva.create_text(165.0, 274.5, text = "Topology           =", fill = "#ffffff", font = ("Calibri", int(12.0)))
 
         # Entries
         self.Vin = Entry( bd = 0, bg = "#d9d9d9", highlightthickness = 0)
@@ -80,12 +97,15 @@ class ConverterWindow:
         self.Po = Entry( bd = 0, bg = "#d9d9d9", highlightthickness = 0)
         self.Vripple = Entry( bd = 0, bg = "#d9d9d9", highlightthickness = 0)
         self.Cripple = Entry( bd = 0, bg = "#d9d9d9", highlightthickness = 0)
+        self.Topology = Combobox(values = ["Buck", "Boost", "Buck/Boost"])
+        
         # Place
         self.Vin.place(x = 222, y = 134, width = 108, height = 13)
         self.Vo.place(x = 222, y = 161, width = 108, height = 13)
         self.Po.place(x = 222, y = 188, width = 108, height = 13)
         self.Vripple.place(x = 222, y = 215, width = 108, height = 13)
         self.Cripple.place(x = 222, y = 242, width = 108, height = 13)
+        self.Topology.place(x = 222, y = 269, width = 110, height = 13)
 
 class Buttons:
     def __init__(self):
@@ -119,8 +139,8 @@ class Buttons:
         self.Buck = Button( image = self.BuckImg, borderwidth = 0, highlightthickness = 0, command = self.btn_clicked, relief = "flat")
         self.Boost = Button( image = self.BoostImg, borderwidth = 0, highlightthickness = 0, command = self.btn_clicked, relief = "flat") 
         self.BB = Button( image = self.BBImg, borderwidth = 0, highlightthickness = 0, command = self.btn_clicked, relief = "flat")
-        self.Apply = Button( image = self.ApplyImg, borderwidth = 0, highlightthickness = 0, command = self.btn_clicked, relief = "flat")
-        self.Discard = Button( image = self.DiscardImg, borderwidth = 0, highlightthickness = 0, command = self.btn_clicked, relief = "flat")
+        self.Apply = Button( image = self.ApplyImg, borderwidth = 0, highlightthickness = 0, command = self.btn_Apply, relief = "flat")
+        self.Discard = Button( image = self.DiscardImg, borderwidth = 0, highlightthickness = 0, command = self.btn_Discard, relief = "flat")
         
         self.ConvDes = Button( image = self.ConvDesImg, borderwidth = 0, highlightthickness = 0, command = self.btn_clicked, relief = "flat")
         self.ElemSpec = Button( image = self.ElemSpecImg, borderwidth = 0, highlightthickness = 0, command = self.btn_clicked, relief = "flat")
@@ -139,8 +159,9 @@ class Buttons:
         self.CtrlDes.place(x = 6, y = 252, width = 70, height = 61)
         self.CtrlImp.place(x = 6, y = 333, width = 70, height = 61)
         self.Summary.place(x = 6, y = 414, width = 70, height = 61)
+
 if __name__ == "__main__":
     root = Tk()
     root.resizable(False, False)    
-    gui = MainWindow(root)
+    gui = APP(root)
     root.mainloop()
