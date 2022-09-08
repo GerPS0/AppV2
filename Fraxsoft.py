@@ -166,7 +166,6 @@ class ConverterWindow:
         background = self.canva.create_image(640.0, 366.0, image=self.bg2_img)
         self.ConverterBtn()
         self.entryBox1()
-        print(type(background))
     
     def ConverterBtn(self):       
         #image Button
@@ -203,12 +202,12 @@ class ConverterWindow:
         self.canva.create_text(165.0, 274.5, text = "Topology           =", fill = "#ffffff", font = ("Calibri", int(12.0)))
 
         # Entries
-        self.Vin = Entry( bd = 0, bg = "#d9d9d9", highlightthickness = 0)
-        self.Vo = Entry( bd = 0, bg = "#d9d9d9", highlightthickness = 0)
-        self.Po = Entry( bd = 0, bg = "#d9d9d9", highlightthickness = 0)
-        self.Vripple = Entry( bd = 0, bg = "#d9d9d9", highlightthickness = 0)
-        self.Cripple = Entry( bd = 0, bg = "#d9d9d9", highlightthickness = 0)
-        self.Topology = Combobox(values = ["Buck", "Boost", "Buck/Boost"])
+        self.Vin = Entry( bd = 0, bg = "#d9d9d9", highlightthickness = 0, justify=RIGHT)
+        self.Vo = Entry( bd = 0, bg = "#d9d9d9", highlightthickness = 0, justify=RIGHT)
+        self.Po = Entry( bd = 0, bg = "#d9d9d9", highlightthickness = 0, justify=RIGHT)
+        self.Vripple = Entry( bd = 0, bg = "#d9d9d9", highlightthickness = 0, justify=RIGHT)
+        self.Cripple = Entry( bd = 0, bg = "#d9d9d9", highlightthickness = 0, justify=RIGHT)
+        self.Topology = Combobox(background="#d9d9d9", values = ["Buck", "Boost", "Buck/Boost"])
         
         # Place
         self.Vin.place(x = 222, y = 134, width = 108, height = 13)
@@ -225,29 +224,30 @@ class DesignWindow:
         self.canva = canva
         self.bg2_img = ImageTk.PhotoImage(file = f"background3.png")
         background = self.canva.create_image(640.0, 366.0, image=self.bg2_img)
-        print(type(background))
+        self.DesignBtn()
         self.entryBox2()
     
     def entryBox2(self):
         #labels
-        self.canva.create_text(203.0, 167.5, text = "Pm                           =", fill = "#ffffff", font = ("Calibri", int(12.0)))
-        self.canva.create_text(203.0, 184.5, text = "Gm                           =", fill = "#ffffff", font = ("Calibri", int(12.0)))
-        self.canva.create_text(203.0, 205.5, text = "G(0)                          =", fill = "#ffffff", font = ("Calibri", int(12.0)))
-        self.canva.create_text(203.0, 224.5, text = "Stable?                    =", fill = "#ffffff", font = ("Calibri", int(12.0)))
+        self.canva.create_text(203.0, 165.5, text = "Pm                          =", fill = "#ffffff", font = ("Calibri", int(12.0)))
+        self.canva.create_text(203.0, 182.5, text = "Gm                          =", fill = "#ffffff", font = ("Calibri", int(12.0)))
+        self.canva.create_text(203.0, 203.5, text = "G(0)                        =", fill = "#ffffff", font = ("Calibri", int(12.0)))
+        self.canva.create_text(203.0, 222.5, text = "Stable?                   =", fill = "#ffffff", font = ("Calibri", int(12.0)))
         
-        self.canva.create_text(203.0, 298.5, text = "Pm                           =", fill = "#ffffff", font = ("Calibri", int(12.0)))
-        self.canva.create_text(203.0, 317.5, text = "Gm                           =", fill = "#ffffff", font = ("Calibri", int(12.0)))
-        self.canva.create_text(203.0, 336.5, text = "Controller structure =", fill = "#ffffff", font = ("Calibri", int(12.0)))
+        self.canva.create_text(203.0, 296.5, text = "Pm                           =", fill = "#ffffff", font = ("Calibri", int(12.0)))
+        self.canva.create_text(203.0, 315.5, text = "Gm                           =", fill = "#ffffff", font = ("Calibri", int(12.0)))
+        self.canva.create_text(203.0, 333.5, text = "Controller structure =", fill = "#ffffff", font = ("Calibri", int(12.0)))
         
-        self.canva.create_text(203.0, 455.5, text = "Pm                           =", fill = "#ffffff", font = ("Calibri", int(12.0)))
-        self.canva.create_text(203.0, 474.5, text = "Gm                           =", fill = "#ffffff", font = ("Calibri", int(12.0)))
-        self.canva.create_text(203.0, 493.5, text = "G(0)                          =", fill = "#ffffff", font = ("Calibri", int(12.0)))
-        self.canva.create_text(203.0, 512.5, text = "Stable?                    =", fill = "#ffffff", font = ("Calibri", int(12.0)))
+        self.canva.create_text(203.0, 453.5, text = "Pm                          =", fill = "#ffffff", font = ("Calibri", int(12.0)))
+        self.canva.create_text(203.0, 472.5, text = "Gm                          =", fill = "#ffffff", font = ("Calibri", int(12.0)))
+        self.canva.create_text(203.0, 491.5, text = "G(0)                        =", fill = "#ffffff", font = ("Calibri", int(12.0)))
+        self.canva.create_text(203.0, 510.5, text = "Stable?                   =", fill = "#ffffff", font = ("Calibri", int(12.0)))
 
         #Enable entries
-        self.PmE = Entry( bd = 0, bg = "#3a4c4e", highlightthickness = 0)
-        self.GmE = Entry( bd = 0, bg = "#3a4c4e", highlightthickness = 0)
-        self.controller = Combobox(values = ["FOPID", "FOPI", "FOPD", "PID"])
+        self.PmE = Entry( bd = 0, bg = "#d9d9d9", highlightthickness = 0, justify=RIGHT)
+        self.GmE = Entry( bd = 0, bg = "#d9d9d9", highlightthickness = 0, justify=RIGHT)
+        self.controller = Combobox(background="#d9d9d9", values = ["FOPID", "FOPI", "FOPD", "PID"])
+        
 
         #place enables
         self.PmE.place(x = 273, y = 292, width = 102, height = 13)
@@ -255,15 +255,15 @@ class DesignWindow:
         self.controller.place(x = 273, y = 330, width = 102, height = 18)
 
         #Disable entriies
-        self.PmD1 = Label( bd = 0, bg = "#3a4c4e", text = "Value",highlightthickness = 0, anchor= "e")
-        self.GmD1 = Label( bd = 0, bg = "#3a4c4e", text = "Value",highlightthickness = 0, anchor= "e")
-        self.G01 = Label( bd = 0, bg = "#3a4c4e", text = "Value",highlightthickness = 0, anchor= "e")
-        self.Stable1 = Label( bd = 0, bg = "#3a4c4e", text = "Value",highlightthickness = 0, anchor = "e")
+        self.PmD1 = Label( fg="#ffffff",bd = 0, bg = "#303F40", text = "Value",highlightthickness = 0, anchor= "e")
+        self.GmD1 = Label( fg="#ffffff",bd = 0, bg = "#303F40", text = "Value",highlightthickness = 0, anchor= "e")
+        self.G01 = Label( fg="#ffffff",bd = 0, bg = "#303F40", text = "Value",highlightthickness = 0, anchor= "e")
+        self.Stable1 = Label( fg="#ffffff", bd = 0, bg = "#303F40", text = "Value",highlightthickness = 0, anchor = "e")
 
-        self.PmD2 = Label( bd = 0, bg = "#3a4c4e", text = "Value",highlightthickness = 0, anchor= "e")
-        self.GmD2 = Label( bd = 0, bg = "#3a4c4e", text = "Value",highlightthickness = 0, anchor= "e")
-        self.G02 = Label( bd = 0, bg = "#3a4c4e", text = "Value",highlightthickness = 0, anchor= "e")
-        self.Stable2 = Label( bd = 0, bg = "#3a4c4e", text = "Value",highlightthickness = 0, anchor= "e")
+        self.PmD2 = Label( fg="#ffffff", bd = 0, bg = "#303F40", text = "Value",highlightthickness = 0, anchor= "e")
+        self.GmD2 = Label( fg="#ffffff", bd = 0, bg = "#303F40", text = "Value",highlightthickness = 0, anchor= "e")
+        self.G02 = Label( fg="#ffffff", bd = 0, bg = "#303F40", text = "Value",highlightthickness = 0, anchor= "e")
+        self.Stable2 = Label( fg="#ffffff", bd = 0, bg = "#303F40", text = "Value",highlightthickness = 0, anchor= "e")
 
         #place disables
         self.PmD1.place(x = 273, y = 160, width = 102, height = 13)
@@ -275,6 +275,23 @@ class DesignWindow:
         self.GmD2.place(x = 273, y = 467, width = 102, height = 13)
         self.G02.place(x = 273, y = 486, width = 102, height = 13)
         self.Stable2.place(x = 273, y = 505, width = 102, height = 13)
+    
+    def DesignBtn(self):       
+        #image Button
+        self.ApplyImg = ImageTk.PhotoImage(file = f"Apply.png")
+        self.DiscardImg = ImageTk.PhotoImage(file = f"Discard.png")
+        # create button
+        self.Apply = Button( image = self.ApplyImg, borderwidth = 0, highlightthickness = 0, command = self.btn_Apply, relief = "flat")
+        self.Discard = Button( image = self.DiscardImg, borderwidth = 0, highlightthickness = 0, command = self.btn_Discard, relief = "flat")
+        #set button place
+        self.Apply.place(x = 139, y = 365, width = 109, height = 26)
+        self.Discard.place(x = 264, y = 365, width = 109, height = 26)
+
+    def btn_Apply(self):
+        pass
+    
+    def btn_Discard(self):
+        pass
 
 class ElementWindow:
     def __init__(self,master,canva):
