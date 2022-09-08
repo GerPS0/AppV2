@@ -73,10 +73,38 @@ class MainBackgraound:
         if value == "1":
             ConverterWindow(self.master,self.MainBG)
             self.ConvDes['state'] = DISABLED
+            self.ElemSpec['state'] = NORMAL
+            self.CtrlDes['state'] = NORMAL
+            self.CtrlImp['state'] = NORMAL
+            self.Summary['state'] = NORMAL
+        if value == "2":
+            ElementWindow(self.master,self.MainBG)
+            self.ElemSpec['state'] = DISABLED
+            self.ConvDes['state'] = NORMAL
+            self.CtrlDes['state'] = NORMAL
+            self.CtrlImp['state'] = NORMAL
+            self.Summary['state'] = NORMAL
         if value == "3":
             DesignWindow(self.master,self.MainBG)
             self.CtrlDes['state'] = DISABLED
             self.ConvDes['state'] = NORMAL
+            self.ElemSpec['state'] = NORMAL
+            self.CtrlImp['state'] = NORMAL
+            self.Summary['state'] = NORMAL  
+        if value == "4":
+            ImplementWindow(self.master,self.MainBG)
+            self.CtrlImp['state'] = DISABLED
+            self.ElemSpec['state'] = NORMAL
+            self.ConvDes['state'] = NORMAL
+            self.CtrlDes['state'] = NORMAL
+            self.Summary['state'] = NORMAL
+        if value == "5":
+            SummaryWindow(self.master,self.MainBG)
+            self.Summary['state'] = DISABLED
+            self.CtrlImp['state'] = NORMAL
+            self.ElemSpec['state'] = NORMAL
+            self.ConvDes['state'] = NORMAL
+            self.CtrlDes['state'] = NORMAL
     
     def bg2(self):
         self.master.geometry("1280x720")
@@ -195,7 +223,7 @@ class DesignWindow:
         self.master = master
         self.canva = canva
         self.bg3_img = ImageTk.PhotoImage(file = f"background3.png")
-        background = self.canva.create_image(640.0, 366.5, image=self.bg3_img)
+        background = self.canva.create_image(640.0, 366, image=self.bg3_img)
         self.entryBox2()
     
     def entryBox2(self):
@@ -225,15 +253,15 @@ class DesignWindow:
         self.controller.place(x = 273, y = 330, width = 102, height = 18)
 
         #Disable entriies
-        self.PmD1 = Entry( bd = 0, bg = "#3a4c4e", highlightthickness = 0,state= "disabled")
-        self.GmD1 = Entry( bd = 0, bg = "#3a4c4e", highlightthickness = 0,state= "disabled")
-        self.G01 = Entry(bd = 0, bg = "#3a4c4e", highlightthickness = 0,state= "disabled")
-        self.Stable1 = Entry(bd = 0, bg = "#3a4c4e", highlightthickness = 0,state= "disabled")
+        self.PmD1 = Label( bd = 0, bg = "#3a4c4e", text = "Value",highlightthickness = 0, anchor= "e")
+        self.GmD1 = Label( bd = 0, bg = "#3a4c4e", text = "Value",highlightthickness = 0, anchor= "e")
+        self.G01 = Label( bd = 0, bg = "#3a4c4e", text = "Value",highlightthickness = 0, anchor= "e")
+        self.Stable1 = Label( bd = 0, bg = "#3a4c4e", text = "Value",highlightthickness = 0, anchor = "e")
 
-        self.PmD2 = Entry( bd = 0, bg = "#3a4c4e", highlightthickness = 0,state= "disabled")
-        self.GmD2 = Entry( bd = 0, bg = "#3a4c4e", highlightthickness = 0,state= "disabled")
-        self.G02 = Entry(bd = 0, bg = "#3a4c4e", highlightthickness = 0, state= "disabled")
-        self.Stable2 = Entry(bd = 0, bg = "#3a4c4e", highlightthickness = 0,state= "disabled")
+        self.PmD2 = Label( bd = 0, bg = "#3a4c4e", text = "Value",highlightthickness = 0, anchor= "e")
+        self.GmD2 = Label( bd = 0, bg = "#3a4c4e", text = "Value",highlightthickness = 0, anchor= "e")
+        self.G02 = Label( bd = 0, bg = "#3a4c4e", text = "Value",highlightthickness = 0, anchor= "e")
+        self.Stable2 = Label( bd = 0, bg = "#3a4c4e", text = "Value",highlightthickness = 0, anchor= "e")
 
         #place disables
         self.PmD1.place(x = 273, y = 160, width = 102, height = 13)
@@ -246,16 +274,27 @@ class DesignWindow:
         self.G02.place(x = 273, y = 486, width = 102, height = 13)
         self.Stable2.place(x = 273, y = 505, width = 102, height = 13)
 
-        #default Values of Disabled entries
-        self.PmD1.insert(0,"Value°")
-        self.GmD1.insert(0,"Value")
-        self.G01.insert(0,"Value")
-        self.Stable1.insert(0,"Yes/No")
-
-        self.PmD2.insert(0,"Value°")
-        self.GmD2.insert(0,"ValuedB")
-        self.G02.insert(0,"ValuedB")
-        self.Stable2.insert(0,"Yes/No")
+class ElementWindow:
+    def __init__(self,master=None,canva=None):
+        super().__init__()
+        self.master = master
+        self.canva = canva
+        self.bg2_img = ImageTk.PhotoImage(file = f"background2.png")
+        background = self.canva.create_image(640.0, 366.0, image=self.bg2_img)
+class ImplementWindow:
+    def __init__(self,master=None,canva=None):
+        super().__init__()
+        self.master = master
+        self.canva = canva
+        self.bg2_img = ImageTk.PhotoImage(file = f"background2.png")
+        background = self.canva.create_image(640.0, 366.0, image=self.bg2_img)
+class SummaryWindow:
+    def __init__(self,master=None,canva=None):
+        super().__init__()
+        self.master = master
+        self.canva = canva
+        self.bg2_img = ImageTk.PhotoImage(file = f"background2.png")
+        background = self.canva.create_image(640.0, 366.0, image=self.bg2_img)
 
 if __name__ == "__main__":
     root = Tk()
