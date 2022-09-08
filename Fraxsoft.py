@@ -1,4 +1,3 @@
-from msilib.schema import ComboBox
 from tkinter import *
 from tkinter.ttk import Combobox
 from PIL import Image, ImageTk
@@ -68,38 +67,38 @@ class MainBackgraound:
         #ConverterWindow(self.master,self.MainBG)
     
     def Ventanas(self,value):
-        self.bg2()
+        bg2 = self.bg2()
         self.BgButtons()
         if value == "1":
-            ConverterWindow(self.master,self.MainBG)
+            ConverterWindow(self.master,bg2)
             self.ConvDes['state'] = DISABLED
             self.ElemSpec['state'] = NORMAL
             self.CtrlDes['state'] = NORMAL
             self.CtrlImp['state'] = NORMAL
             self.Summary['state'] = NORMAL
         if value == "2":
-            ElementWindow(self.master,self.MainBG)
+            ElementWindow(self.master,bg2)
             self.ElemSpec['state'] = DISABLED
             self.ConvDes['state'] = NORMAL
             self.CtrlDes['state'] = NORMAL
             self.CtrlImp['state'] = NORMAL
             self.Summary['state'] = NORMAL
         if value == "3":
-            DesignWindow(self.master,self.MainBG)
+            DesignWindow(self.master,bg2)
             self.CtrlDes['state'] = DISABLED
             self.ConvDes['state'] = NORMAL
             self.ElemSpec['state'] = NORMAL
             self.CtrlImp['state'] = NORMAL
             self.Summary['state'] = NORMAL  
         if value == "4":
-            ImplementWindow(self.master,self.MainBG)
+            ImplementWindow(self.master,bg2)
             self.CtrlImp['state'] = DISABLED
             self.ElemSpec['state'] = NORMAL
             self.ConvDes['state'] = NORMAL
             self.CtrlDes['state'] = NORMAL
             self.Summary['state'] = NORMAL
         if value == "5":
-            SummaryWindow(self.master,self.MainBG)
+            SummaryWindow(self.master,bg2)
             self.Summary['state'] = DISABLED
             self.CtrlImp['state'] = NORMAL
             self.ElemSpec['state'] = NORMAL
@@ -111,6 +110,7 @@ class MainBackgraound:
         self.master.configure(bg = "#253132")
         self.MainBG = Canvas(self.master,bg = "#253132", height = 720, width = 1280, bd = 0, highlightthickness = 0, relief = "ridge")
         self.MainBG.place(x = 0, y = 0)
+        return self.MainBG
       
     def btn_click(self,value):
         self.value = value
@@ -158,7 +158,7 @@ class MainBackgraound:
      
     
 class ConverterWindow:
-    def __init__(self,master=None,canva=None):
+    def __init__(self,master,canva):
         super().__init__()
         self.master = master
         self.canva = canva
@@ -166,6 +166,7 @@ class ConverterWindow:
         background = self.canva.create_image(640.0, 366.0, image=self.bg2_img)
         self.ConverterBtn()
         self.entryBox1()
+        print(type(background))
     
     def ConverterBtn(self):       
         #image Button
@@ -218,12 +219,13 @@ class ConverterWindow:
         self.Topology.place(x = 222, y = 269, width = 108, height = 18)
 
 class DesignWindow:
-    def __init__(self,master=None,canva=None):
+    def __init__(self,master,canva):
         super().__init__()
         self.master = master
         self.canva = canva
-        self.bg3_img = ImageTk.PhotoImage(file = f"background3.png")
-        background = self.canva.create_image(640.0, 366, image=self.bg3_img)
+        self.bg2_img = ImageTk.PhotoImage(file = f"background3.png")
+        background = self.canva.create_image(640.0, 366.0, image=self.bg2_img)
+        print(type(background))
         self.entryBox2()
     
     def entryBox2(self):
@@ -275,7 +277,7 @@ class DesignWindow:
         self.Stable2.place(x = 273, y = 505, width = 102, height = 13)
 
 class ElementWindow:
-    def __init__(self,master=None,canva=None):
+    def __init__(self,master,canva):
         super().__init__()
         self.master = master
         self.canva = canva
