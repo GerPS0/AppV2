@@ -75,8 +75,12 @@ class MainBackgraound:
         self.BgButtons()
         if value == "1":
             ConverterWindow(self.master,self.MainBG)
-        if value == "2":
+            self.ConvDes['state'] = DISABLED
+        if value == "3":
             DesignWindow(self.master,self.MainBG)
+            self.ConvDes['state'] = NORMAL
+            self.CtrlDes['state'] = DISABLED
+            
         
     def btn_click(self,value):
         self.value = value
