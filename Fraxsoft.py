@@ -67,12 +67,6 @@ class MainBackgraound:
         self.Ventanas(window)
         #ConverterWindow(self.master,self.MainBG)
     
-    def bg2(self):
-        self.master.geometry("1280x720")
-        self.master.configure(bg = "#253132")
-        self.MainBG = Canvas(self.master,bg = "#253132", height = 720, width = 1280, bd = 0, highlightthickness = 0, relief = "ridge")
-        self.MainBG.place(x = 0, y = 0)
-    
     def Ventanas(self,value):
         self.bg2()
         self.BgButtons()
@@ -83,8 +77,13 @@ class MainBackgraound:
             DesignWindow(self.master,self.MainBG)
             self.CtrlDes['state'] = DISABLED
             self.ConvDes['state'] = NORMAL
-            
-        
+    
+    def bg2(self):
+        self.master.geometry("1280x720")
+        self.master.configure(bg = "#253132")
+        self.MainBG = Canvas(self.master,bg = "#253132", height = 720, width = 1280, bd = 0, highlightthickness = 0, relief = "ridge")
+        self.MainBG.place(x = 0, y = 0)
+      
     def btn_click(self,value):
         self.value = value
         print(self.value)
@@ -131,7 +130,7 @@ class MainBackgraound:
      
     
 class ConverterWindow:
-    def __init__(self,master,canva):
+    def __init__(self,master=None,canva=None):
         super().__init__()
         self.master = master
         self.canva = canva
@@ -190,17 +189,15 @@ class ConverterWindow:
         self.Cripple.place(x = 222, y = 242, width = 108, height = 13)
         self.Topology.place(x = 222, y = 269, width = 108, height = 18)
 
-
-
-
 class DesignWindow:
-    def __init__(self,master,canva):
+    def __init__(self,master=None,canva=None):
         super().__init__()
         self.master = master
         self.canva = canva
         self.bg3_img = ImageTk.PhotoImage(file = f"background3.png")
         background = self.canva.create_image(640.0, 366.5, image=self.bg3_img)
         self.entryBox2()
+    
     def entryBox2(self):
         #labels
         self.canva.create_text(203.0, 167.5, text = "Pm                           =", fill = "#ffffff", font = ("Calibri", int(12.0)))
@@ -259,8 +256,6 @@ class DesignWindow:
         self.GmD2.insert(0,"ValuedB")
         self.G02.insert(0,"ValuedB")
         self.Stable2.insert(0,"Yes/No")
-
-  
 
 if __name__ == "__main__":
     root = Tk()
