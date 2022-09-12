@@ -194,12 +194,12 @@ class ConverterWindow:
            
     def entryBox1(self):
         # Labels
-        self.canva.create_text(165.0, 139.5, text = "Input Voltage    =", fill = "#ffffff", font = ("Calibri", int(12.0)))
-        self.canva.create_text(165.0, 166.5, text = "Ouput Voltage  =", fill = "#ffffff", font = ("Calibri", int(12.0)))
-        self.canva.create_text(165.0, 193.5, text = "Output Power   =", fill = "#ffffff", font = ("Calibri", int(12.0)))
-        self.canva.create_text(165.0, 220.5, text = "Voltage ripple   =", fill = "#ffffff", font = ("Calibri", int(12.0)))
-        self.canva.create_text(165.0, 247.5, text = "Current ripple   =", fill = "#ffffff", font = ("Calibri", int(12.0)))
-        self.canva.create_text(165.0, 274.5, text = "Topology           =", fill = "#ffffff", font = ("Calibri", int(12.0)))
+        self.canva.create_text(165.0, 155.5, text = "Input Voltage    =", fill = "#ffffff", font = ("Calibri", int(12.0)))
+        self.canva.create_text(165.0, 182.5, text = "Ouput Voltage  =", fill = "#ffffff", font = ("Calibri", int(12.0)))
+        self.canva.create_text(165.0, 209.5, text = "Output Power   =", fill = "#ffffff", font = ("Calibri", int(12.0)))
+        self.canva.create_text(165.0, 236.5, text = "Voltage ripple   =", fill = "#ffffff", font = ("Calibri", int(12.0)))
+        self.canva.create_text(165.0, 263.5, text = "Current ripple   =", fill = "#ffffff", font = ("Calibri", int(12.0)))
+        self.canva.create_text(165.0, 293.5, text = "Topology           =", fill = "#ffffff", font = ("Calibri", int(12.0)))
 
         # Entries
         self.Vin = Entry( bd = 0, bg = "#d9d9d9", highlightthickness = 0, justify=RIGHT)
@@ -210,12 +210,12 @@ class ConverterWindow:
         self.Topology = Combobox(background="#d9d9d9", values = ["Buck", "Boost", "Buck/Boost"])
         
         # Place
-        self.Vin.place(x = 222, y = 134, width = 108, height = 13)
-        self.Vo.place(x = 222, y = 161, width = 108, height = 13)
-        self.Po.place(x = 222, y = 188, width = 108, height = 13)
-        self.Vripple.place(x = 222, y = 215, width = 108, height = 13)
-        self.Cripple.place(x = 222, y = 242, width = 108, height = 13)
-        self.Topology.place(x = 222, y = 269, width = 108, height = 18)
+        self.Vin.place(x = 222, y = 150, width = 108, height = 13)
+        self.Vo.place(x = 222, y = 177, width = 108, height = 13)
+        self.Po.place(x = 222, y = 204, width = 108, height = 13)
+        self.Vripple.place(x = 222, y = 231, width = 108, height = 13)
+        self.Cripple.place(x = 222, y = 258, width = 108, height = 13)
+        self.Topology.place(x = 222, y = 288, width = 108, height = 18)
 
 class DesignWindow:
     def __init__(self,master,canva):
