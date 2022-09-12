@@ -1,4 +1,5 @@
 from array import array
+from asyncore import read
 from encodings import utf_8
 from fileinput import close
 from operator import contains
@@ -9,7 +10,7 @@ from tkinter import filedialog
 from tkinter import messagebox
 
 
-DataValue = [""]
+DataValue = ["1"]
 pantalla = "1"
 
 class APP:
@@ -60,12 +61,14 @@ class MainWindow:
         
 
     def btnLoad(self):
+        global DataValue
         namepath = filedialog.askopenfile()
-        if namepath.name.__contains__(".csv"):
+        if namepath.name.__contains__(".txt"):
             f = open(namepath.name,'r',encoding = 'utf-8') 
+            DataValue = f.readline().split()
             print(f.readlines())
             f.close()
-            MainBackgraound(self.master,"3")
+            MainBackgraound(self.master,DataValue[0])
         else:
             messagebox.showwarning(title = "Warning", message="Escoger un archivo correcto")   
     def btnHelp(self):
@@ -146,7 +149,7 @@ class MainBackgraound:
             Action = messagebox.askyesno(title = "", message= "Do you want to save the previous design?")
             if Action == True:
                 self.saveArchive()
-                pantalla = "1"
+                pantalla = DataValue[0]
                 self.Ventanas(pantalla)
             else:
                 pantalla = self.openArchive()
@@ -158,18 +161,34 @@ class MainBackgraound:
         namepath = filedialog.askopenfile()
         try :
             print(namepath.name)
-            if namepath.name.__contains__(".csv"):
+            if namepath.name.__contains__(".txt"):
                 f = open(namepath.name,'r',encoding = 'utf-8') 
+                DataValue = f.readline().split()
                 print(f.readlines())
                 f.close()
-                return f.read(1)
+                return DataValue[0]
             else:
                 messagebox.showwarning(title="file",message="select a correct file")
                 return "1"
         except:
             return "1"
     def saveArchive(self):
-        pass    
+        aux = ""
+        for i in DataValue:
+            aux += i + " " 
+        fname = filedialog.asksaveasfilename()
+        try:
+            if fname.__contains__(".txt"):
+                pass
+            else:
+                fname = fname + ".txt"
+            f = open(fname,'w',encoding = 'utf-8') 
+            f.write(aux)
+            #print(f.readline())
+            f.close()
+        except:
+            pass
+
     def BgButtons(self):         
         # image button
         self.ConvDesImg = ImageTk.PhotoImage(file = f"ConvDes.png")
@@ -278,6 +297,9 @@ class DesignWindow:
         super().__init__()
         self.master = master
         self.canva = canva
+        global DataValue
+        global pantalla
+        pantalla = "2"
         self.bg2_img = ImageTk.PhotoImage(file = f"background3.png")
         background = self.canva.create_image(640.0, 366.0, image=self.bg2_img)
         self.DesignBtn()
@@ -343,10 +365,19 @@ class DesignWindow:
         self.Discard.place(x = 264, y = 365, width = 109, height = 26)
 
     def btn_Apply(self):
-        pass
+        DataValue[0] = pantalla
+        aux = [self.PmE.get(), self.GmE.get(), self.controller.get()]
+        if aux.__contains__(""):
+            messagebox.showwarning(title = "Warning", message="Fill all entry values")
+        DataValue[7:] = aux
+        print(type(DataValue),DataValue)
     
     def btn_Discard(self):
-        pass
+        self.PmE.delete(0,END) 
+        self.GmE.delete(0,END)
+        aux = [self.PmE.get(), self.GmE.get(), self.controller.get()]
+        DataValue[7:] = aux
+        print(type(DataValue),DataValue) 
 
 class ElementWindow:
     def __init__(self,master,canva):
