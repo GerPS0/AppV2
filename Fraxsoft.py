@@ -1,8 +1,16 @@
+from array import array
+from encodings import utf_8
+from fileinput import close
+from operator import contains
 from tkinter import *
 from tkinter.ttk import Combobox
 from PIL import Image, ImageTk
 from tkinter import filedialog
 from tkinter import messagebox
+
+
+DataValue = [""]
+pantalla = "1"
 
 class APP:
     def __init__(self,master = None):
@@ -47,15 +55,19 @@ class MainWindow:
 
     def btnNew(self):
         self.MainW.destroy()
-        window = ("1")
+        window = "1"
         MainBackgraound(self.master,window)
+        
 
     def btnLoad(self):
-        archivo = filedialog.askopenfilename()
-        if archivo == "":
-            messagebox.showwarning(title = "Warning", message="Escoger un archivo correcto")
+        namepath = filedialog.askopenfile()
+        if namepath.name.__contains__(".csv"):
+            f = open(namepath.name,'r',encoding = 'utf-8') 
+            print(f.readlines())
+            f.close()
+            MainBackgraound(self.master,"3")
         else:
-            messagebox.askyesno(title = "", message= "Do you wish to proceed?")
+            messagebox.showwarning(title = "Warning", message="Escoger un archivo correcto")   
     def btnHelp(self):
         pass     
 
@@ -63,9 +75,10 @@ class MainBackgraound:
     def __init__(self,master,window):
         super().__init__()
         self.master = master
+        global pantalla
+        global DataValue
         self.Ventanas(window)
         #ConverterWindow(self.master,self.MainBG)
-    
     def Ventanas(self,value):
         bg2 = self.bg2()
         self.BgButtons()
@@ -116,10 +129,47 @@ class MainBackgraound:
         self.value = value
         print(self.value)
         self.Ventanas(self.value)
-    def btn_action(self):
-        pass
-
-    
+    #actiones del menu principal
+    def btn_action(self,value): 
+        if value == "1":
+            #menu button New Design
+            Action = messagebox.askyesno(title = "", message= "Do you want to save the previous design?")
+            if Action == True:
+                self.saveArchive()
+            else:
+                self.Ventanas("1")
+        if value == "2":
+            #menu button Save
+            self.saveArchive()
+        if value == "3":
+            #menu button open
+            Action = messagebox.askyesno(title = "", message= "Do you want to save the previous design?")
+            if Action == True:
+                self.saveArchive()
+                pantalla = "1"
+                self.Ventanas(pantalla)
+            else:
+                pantalla = self.openArchive()
+                self.Ventanas(pantalla)
+        if value == "4":
+            #menu button Help
+            pass
+    def openArchive(self):
+        namepath = filedialog.askopenfile()
+        try :
+            print(namepath.name)
+            if namepath.name.__contains__(".csv"):
+                f = open(namepath.name,'r',encoding = 'utf-8') 
+                print(f.readlines())
+                f.close()
+                return f.read(1)
+            else:
+                messagebox.showwarning(title="file",message="select a correct file")
+                return "1"
+        except:
+            return "1"
+    def saveArchive(self):
+        pass    
     def BgButtons(self):         
         # image button
         self.ConvDesImg = ImageTk.PhotoImage(file = f"ConvDes.png")
@@ -139,10 +189,10 @@ class MainBackgraound:
         self.CtrlImp = Button( image = self.CtrlImpImg, borderwidth = 0, highlightthickness = 0, command = lambda:self.btn_click("4"), relief = "flat")
         self.Summary = Button( image = self.SummaryImg, borderwidth = 0, highlightthickness = 0, command = lambda:self.btn_click("5"), relief = "flat")
         
-        self.NweD = Button( image = self.ImgNewD, borderwidth=0, highlightthickness=0, command=self.btn_action, relief = "flat")
-        self.Save = Button( image = self.ImgSave, borderwidth=0, highlightthickness=0, command=self.btn_action, relief = "flat")
-        self.Open = Button( image = self.ImgOpen, borderwidth=0, highlightthickness=0, command=self.btn_action, relief = "flat")
-        self.Help2 = Button( image = self.ImgHelp2, borderwidth=0, highlightthickness=0, command=self.btn_action, relief = "flat")
+        self.NweD = Button( image = self.ImgNewD, borderwidth=0, highlightthickness=0, command=lambda:self.btn_action("1"), relief = "flat")
+        self.Save = Button( image = self.ImgSave, borderwidth=0, highlightthickness=0, command=lambda:self.btn_action("2"), relief = "flat")
+        self.Open = Button( image = self.ImgOpen, borderwidth=0, highlightthickness=0, command=lambda:self.btn_action("3"), relief = "flat")
+        self.Help2 = Button( image = self.ImgHelp2, borderwidth=0, highlightthickness=0, command=lambda:self.btn_action("4"), relief = "flat")
 
         #set button place
         self.ConvDes.place(x = 6, y = 90, width = 70, height = 61)
@@ -162,6 +212,9 @@ class ConverterWindow:
         super().__init__()
         self.master = master
         self.canva = canva
+        global DataValue
+        global pantalla
+        pantalla = "1"
         self.bg2_img = ImageTk.PhotoImage(file = f"background2.png")
         background = self.canva.create_image(640.0, 366.0, image=self.bg2_img)
         self.ConverterBtn()
@@ -179,19 +232,23 @@ class ConverterWindow:
         self.Discard.place(x = 229, y = 360, width = 109, height = 26)
 
     def btn_Apply(self):
-        global Values
-        Values = [self.Vin.get(), self.Vo.get(), self.Po.get(), self.Vripple.get(), self.Cripple.get(), self.Topology.get()]
-        if Values.__contains__(""):
+        DataValue[0] = pantalla
+        aux = [self.Vin.get(), self.Vo.get(), self.Po.get(), self.Vripple.get(), self.Cripple.get(), self.Topology.get()]
+        if aux.__contains__(""):
             messagebox.showwarning(title = "Warning", message="Fill all entry values")
-    
+        DataValue[1:] = aux
+        print(type(DataValue),DataValue)
+        
+
     def btn_Discard(self):
         self.Vin.delete(0,END) 
         self.Vo.delete(0,END)
         self.Po.delete(0,END)
         self.Vripple.delete(0,END)
         self.Cripple.delete(0,END)
-        Values = [self.Vin.get(), self.Vo.get(), self.Po.get(), self.Vripple.get(), self.Cripple.get(), self.Topology.get()]
-           
+        DataValue[1:] = [self.Vin.get(), self.Vo.get(), self.Po.get(), self.Vripple.get(), self.Cripple.get(), self.Topology.get()]
+        print(type(DataValue),DataValue)   
+    
     def entryBox1(self):
         # Labels
         self.canva.create_text(165.0, 155.5, text = "Input Voltage    =", fill = "#ffffff", font = ("Calibri", int(12.0)))
@@ -208,7 +265,6 @@ class ConverterWindow:
         self.Vripple = Entry( bd = 0, bg = "#d9d9d9", highlightthickness = 0, justify=RIGHT)
         self.Cripple = Entry( bd = 0, bg = "#d9d9d9", highlightthickness = 0, justify=RIGHT)
         self.Topology = Combobox(background="#d9d9d9", values = ["Buck", "Boost", "Buck/Boost"])
-        
         # Place
         self.Vin.place(x = 222, y = 150, width = 108, height = 13)
         self.Vo.place(x = 222, y = 177, width = 108, height = 13)
@@ -226,7 +282,6 @@ class DesignWindow:
         background = self.canva.create_image(640.0, 366.0, image=self.bg2_img)
         self.DesignBtn()
         self.entryBox2()
-    
     def entryBox2(self):
         #labels
         self.canva.create_text(203.0, 165.5, text = "Pm                          =", fill = "#ffffff", font = ("Calibri", int(12.0)))
