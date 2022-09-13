@@ -429,15 +429,42 @@ class ElementWindow:
         super().__init__()
         self.master = master
         self.canva = canva
-        self.bg2_img = ImageTk.PhotoImage(file = f"background2.png")
+        self.bg2_img = ImageTk.PhotoImage(file = f"background4.png")
         background = self.canva.create_image(640.0, 366.0, image=self.bg2_img)
+        self.DesignBtn()
+    
+    def DesignBtn(self):
+        #image Button
+        self.ElemIMG = ImageTk.PhotoImage(file = f"summ.png")
+        # create button
+        self.ElemBtn = Button( image = self.ElemIMG, borderwidth = 0, highlightthickness = 0, command = self.btn_Action, relief = "flat")
+        #set button place
+        self.ElemBtn.place(x = 130, y = 166, width = 109, height = 26)
+    def btn_Action(self):
+        pass
 class ImplementWindow:
     def __init__(self,master=None,canva=None):
         super().__init__()
         self.master = master
         self.canva = canva
-        self.bg2_img = ImageTk.PhotoImage(file = f"background2.png")
+        self.bg2_img = ImageTk.PhotoImage(file = f"background1.png")
         background = self.canva.create_image(640.0, 366.0, image=self.bg2_img)
+        self.DesignBtn()
+    def DesignBtn(self):
+        #image Button
+        self.AnalogIMG = ImageTk.PhotoImage(file = f"Analog.png")
+        self.DigitalIMG = ImageTk.PhotoImage(file = f"Digital.png")
+        # create button
+        self.AnalogBtn = Button( image = self.AnalogIMG, borderwidth = 0, highlightthickness = 0, command = self.btn_Action, relief = "flat")
+        self.DigitaBtn = Button( image = self.DigitalIMG, borderwidth = 0, highlightthickness = 0, command = self.btn_Action, relief = "flat")
+        #set button place
+        self.AnalogBtn.place(x = 130, y = 170, width = 109, height = 26)
+        self.DigitaBtn.place(x = 282, y = 170, width = 109, height = 26)
+
+        self.DigitaBtn['state'] = DISABLED
+        
+    def btn_Action(self):
+        pass
 class SummaryWindow:
     def __init__(self,master=None,canva=None):
         super().__init__()
