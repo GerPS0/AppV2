@@ -133,15 +133,15 @@ class MainBackgraound:
         self.Ventanas(self.value)
     #actiones del menu principal
     def btn_action(self,value): 
+        global DataValue
         if value == "1":
             #menu button New Design
             Action = messagebox.askyesno(title = "", message= "Do you want to save the previous design?")
             if Action == True:
                 self.saveArchive()
-            else:
-                DataValue = ["1"]
-                print(DataValue)
-                self.Ventanas("1")
+            print(DataValue)
+            DataValue = ["1"]    
+            self.Ventanas("1")
         if value == "2":
             #menu button Save
             self.saveArchive()
@@ -159,6 +159,7 @@ class MainBackgraound:
             #menu button Help
             pass
     def openArchive(self):
+        global DataValue
         namepath = filedialog.askopenfile()
         try :
             print(namepath.name)
@@ -442,8 +443,20 @@ class SummaryWindow:
         super().__init__()
         self.master = master
         self.canva = canva
-        self.bg2_img = ImageTk.PhotoImage(file = f"background2.png")
+        self.bg2_img = ImageTk.PhotoImage(file = f"background5.png")
         background = self.canva.create_image(640.0, 366.0, image=self.bg2_img)
+        self.DesignBtn()
+    def DesignBtn(self):
+        #image Button
+        self.SummIMG = ImageTk.PhotoImage(file = f"summ.png")
+        # create button
+        self.SummBtn = Button( image = self.SummIMG, borderwidth = 0, highlightthickness = 0, command = self.btn_Action, relief = "flat")
+        #set button place
+        self.SummBtn.place(x = 130, y = 166, width = 109, height = 26)
+    def btn_Action(self):
+        pass
+
+
 
 if __name__ == "__main__":
     root = Tk()
