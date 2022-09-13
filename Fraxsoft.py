@@ -1,9 +1,9 @@
-from array import array
-from asyncore import read
+
 from encodings import utf_8
 from fileinput import close
 from operator import contains
 from tkinter import *
+from tkinter import font
 from tkinter.ttk import Combobox
 from PIL import Image, ImageTk
 from tkinter import filedialog
@@ -56,8 +56,7 @@ class MainWindow:
 
     def btnNew(self):
         self.MainW.destroy()
-        window = "1"
-        MainBackgraound(self.master,window)
+        MainBackgraound(self.master,"1")
         
 
     def btnLoad(self):
@@ -140,6 +139,8 @@ class MainBackgraound:
             if Action == True:
                 self.saveArchive()
             else:
+                DataValue = ["1"]
+                print(DataValue)
                 self.Ventanas("1")
         if value == "2":
             #menu button Save
@@ -231,13 +232,19 @@ class ConverterWindow:
         super().__init__()
         self.master = master
         self.canva = canva
+        self.typesC = StringVar()
+        
         global DataValue
         global pantalla
         pantalla = "1"
+        
         self.bg2_img = ImageTk.PhotoImage(file = f"background2.png")
         background = self.canva.create_image(640.0, 366.0, image=self.bg2_img)
+        
         self.ConverterBtn()
         self.entryBox1()
+        self.typesC.trace('w',self.infobox)
+        self.previousVal1()
     
     def ConverterBtn(self):       
         #image Button
@@ -269,6 +276,7 @@ class ConverterWindow:
         print(type(DataValue),DataValue)   
     
     def entryBox1(self):
+        
         # Labels
         self.canva.create_text(165.0, 155.5, text = "Input Voltage    =", fill = "#ffffff", font = ("Calibri", int(12.0)))
         self.canva.create_text(165.0, 182.5, text = "Ouput Voltage  =", fill = "#ffffff", font = ("Calibri", int(12.0)))
@@ -283,7 +291,8 @@ class ConverterWindow:
         self.Po = Entry( bd = 0, bg = "#d9d9d9", highlightthickness = 0, justify=RIGHT)
         self.Vripple = Entry( bd = 0, bg = "#d9d9d9", highlightthickness = 0, justify=RIGHT)
         self.Cripple = Entry( bd = 0, bg = "#d9d9d9", highlightthickness = 0, justify=RIGHT)
-        self.Topology = Combobox(background="#d9d9d9", values = ["Buck", "Boost", "Buck/Boost"])
+        self.Topology = Combobox(background="#d9d9d9", values = ["Buck", "Boost", "Buck/Boost"],textvariable = self.typesC)
+        
         # Place
         self.Vin.place(x = 222, y = 150, width = 108, height = 13)
         self.Vo.place(x = 222, y = 177, width = 108, height = 13)
@@ -291,17 +300,52 @@ class ConverterWindow:
         self.Vripple.place(x = 222, y = 231, width = 108, height = 13)
         self.Cripple.place(x = 222, y = 258, width = 108, height = 13)
         self.Topology.place(x = 222, y = 288, width = 108, height = 18)
-
+        
+    def previousVal1(self,*args):
+        global DataValue
+        print(DataValue)
+        self.Vin.delete(0,END) 
+        self.Vo.delete(0,END)
+        self.Po.delete(0,END)
+        self.Vripple.delete(0,END)
+        self.Cripple.delete(0,END)
+        if DataValue.__contains__("") or len(DataValue) < 7:
+            pass
+        else:
+            self.Vin.insert(0,str(DataValue[1]))
+            self.Vo.insert(0,str(DataValue[2]))
+            self.Po.insert(0,str(DataValue[3]))
+            self.Vripple.insert(0,str(DataValue[4]))
+            self.Cripple.insert(0,str(DataValue[5]))
+            self.typesC.set(str(DataValue[6]))
+            
+    
+    def infobox(self,*args):        
+        value = str(self.typesC.get())
+        if value == "Buck": 
+            txt = "The buck converter..."
+        if value == "Boost":           
+            txt = "The boost converter..."
+        if value == "Buck/Boost":   
+            txt = "The buck/boost converter..."
+        if value == "":
+            txt = "select a topology"
+        pass
+        message = Label(text = txt, font = ("Calibri", int(12.0)), fg = "#ffffff", bg= "#3A4C4E", justify= 'left')
+        message.place(x = 97.0, y = 410, width = 242, height = 100) 
 class DesignWindow:
     def __init__(self,master,canva):
         super().__init__()
         self.master = master
         self.canva = canva
+        
         global DataValue
         global pantalla
         pantalla = "2"
+        
         self.bg2_img = ImageTk.PhotoImage(file = f"background3.png")
         background = self.canva.create_image(640.0, 366.0, image=self.bg2_img)
+        
         self.DesignBtn()
         self.entryBox2()
     def entryBox2(self):
