@@ -175,6 +175,7 @@ class MainBackgraound:
         except:
             return "1"
     def saveArchive(self):
+        global DataValue
         aux = ""
         for i in DataValue:
             aux += i + " " 
@@ -265,7 +266,7 @@ class ConverterWindow:
             messagebox.showwarning(title = "Warning", message="Fill all entry values")
         DataValue[1:] = aux
         print(type(DataValue),DataValue)
-        
+        self.DisplayConverter()
 
     def btn_Discard(self):
         self.Vin.delete(0,END) 
@@ -275,7 +276,11 @@ class ConverterWindow:
         self.Cripple.delete(0,END)
         DataValue[1:] = [self.Vin.get(), self.Vo.get(), self.Po.get(), self.Vripple.get(), self.Cripple.get(), self.Topology.get()]
         print(type(DataValue),DataValue)   
-    
+        self.newCanva.destroy()
+    def DisplayConverter(self):
+        self.newCanva = Canvas(self.master, bg = "#3A4C4E",height = 520, width = 829, bd = 0, highlightthickness = 0, relief = "ridge")
+        self.newCanva.place(x = "402", y = "135")
+
     def entryBox1(self):
         
         # Labels
@@ -416,14 +421,18 @@ class DesignWindow:
             messagebox.showwarning(title = "Warning", message="Fill all entry values")
         DataValue[7:] = aux
         print(type(DataValue),DataValue)
-    
+        self.DisplayGraphs()
     def btn_Discard(self):
         self.PmE.delete(0,END) 
         self.GmE.delete(0,END)
         aux = [self.PmE.get(), self.GmE.get(), self.controller.get()]
         DataValue[7:] = aux
         print(type(DataValue),DataValue) 
+        self.newCanva.destroy()
 
+    def DisplayGraphs(self):
+        self.newCanva = Canvas(self.master, bg = "#3A4C4E",height = 520, width = 829, bd = 0, highlightthickness = 0, relief = "ridge")
+        self.newCanva.place(x = "402", y = "135")
 class ElementWindow:
     def __init__(self,master,canva):
         super().__init__()
@@ -542,7 +551,9 @@ class ImplementWindow:
 
     def btn_saveDesign(self):
         pass
-
+    
+    def VerifyValues(self):
+        pass
 
 
 
@@ -574,5 +585,6 @@ class SummaryWindow:
 if __name__ == "__main__":
     root = Tk()
     root.resizable(False, False)    
+    root.title("Fraxsoft Beta")
     gui = APP(root)
     root.mainloop()
