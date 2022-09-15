@@ -477,15 +477,15 @@ class DesignWindow:
         self.controller.place(x = 273, y = 330, width = 102, height = 18)
 
         #Disable entriies
-        self.PmD1 = Label( fg="#ffffff",bd = 0, bg = "#303F40", text = self.plantValue[0],highlightthickness = 0, anchor= "e")
-        self.GmD1 = Label( fg="#ffffff",bd = 0, bg = "#303F40", text = self.plantValue[1],highlightthickness = 0, anchor= "e")
-        self.G01 = Label( fg="#ffffff",bd = 0, bg = "#303F40", text = self.plantValue[2],highlightthickness = 0, anchor= "e")
-        self.Stable1 = Label( fg="#ffffff", bd = 0, bg = "#303F40", text = self.plantValue[3],highlightthickness = 0, anchor = "e")
+        self.PmD1 = Label( fg="#ffffff",bd = 0, bg = "#303F40", text = "Value",highlightthickness = 0, anchor= "e")
+        self.GmD1 = Label( fg="#ffffff",bd = 0, bg = "#303F40", text = "Value",highlightthickness = 0, anchor= "e")
+        self.G01 = Label( fg="#ffffff",bd = 0, bg = "#303F40", text = "Value",highlightthickness = 0, anchor= "e")
+        self.Stable1 = Label( fg="#ffffff", bd = 0, bg = "#303F40", text = "Value",highlightthickness = 0, anchor = "e")
 
-        self.PmD2 = Label( fg="#ffffff", bd = 0, bg = "#303F40", text = self.fraccValue[0],highlightthickness = 0, anchor= "e")
-        self.GmD2 = Label( fg="#ffffff", bd = 0, bg = "#303F40", text = self.fraccValue[1],highlightthickness = 0, anchor= "e")
-        self.G02 = Label( fg="#ffffff", bd = 0, bg = "#303F40", text = self.fraccValue[2],highlightthickness = 0, anchor= "e")
-        self.Stable2 = Label( fg="#ffffff", bd = 0, bg = "#303F40", text = self.fraccValue[3],highlightthickness = 0, anchor= "e")
+        self.PmD2 = Label( fg="#ffffff", bd = 0, bg = "#303F40", text = "Value",highlightthickness = 0, anchor= "e")
+        self.GmD2 = Label( fg="#ffffff", bd = 0, bg = "#303F40", text = "Value",highlightthickness = 0, anchor= "e")
+        self.G02 = Label( fg="#ffffff", bd = 0, bg = "#303F40", text = "Value",highlightthickness = 0, anchor= "e")
+        self.Stable2 = Label( fg="#ffffff", bd = 0, bg = "#303F40", text = "Value",highlightthickness = 0, anchor= "e")
 
         #place disables
         self.PmD1.place(x = 273, y = 160, width = 102, height = 13)
@@ -557,9 +557,16 @@ class DesignWindow:
             self.controller.insert(0,str(DataValue[10]))
             
         if len(TFs) > 1:
-            self.plantValue = [str(TFs[9]),str(TFs[10]),str(TFs[11]),str(TFs[12])]
+            self.PmD1['text'] = str(TFs[9])
+            self.GmD1['text'] = str(TFs[10])
+            self.G01['text'] =str(TFs[11])
+            self.Stable1['text'] =str(TFs[12])
         else:
-            self.plantValue = ["Value","Value","Value","Value"]
+            self.PmD1['text'] = "Value"
+            self.GmD1['text'] = "Value"
+            self.G01['text'] ="Value"
+            self.Stable1['text'] ="Value"
+        
         if len(Parameters) > 1:
             self.fraccValue = [str(Parameters[19]),str(Parameters[20]),str(Parameters[21]),str(Parameters[22])]
         else:
