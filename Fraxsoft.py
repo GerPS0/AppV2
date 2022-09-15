@@ -75,7 +75,7 @@ class MainWindow:
         if namepath.name.__contains__(".txt"):
             f = open(namepath.name,'r',encoding = 'utf-8') 
             DataValue = f.readline().split()
-            print(f.readlines())
+            #print(f.readlines())
             f.close()
             MainBackgraound(self.master,DataValue[0])
         else:
@@ -139,7 +139,7 @@ class MainBackgraound:
       
     def btn_click(self,value):
         self.value = value
-        print(self.value)
+        #print(self.value)
         self.Ventanas(self.value)
     #actiones del menu principal
     def btn_action(self,value): 
@@ -149,7 +149,7 @@ class MainBackgraound:
             Action = messagebox.askyesno(title = "", message= "Do you want to save the previous design?")
             if Action == True:
                 self.saveArchive()
-            print(DataValue)
+            #print(DataValue)
             DataValue = ["1"]    
             self.Ventanas("1")
         if value == "2":
@@ -172,11 +172,11 @@ class MainBackgraound:
         global DataValue
         namepath = filedialog.askopenfile()
         try :
-            print(namepath.name)
+            #print(namepath.name)
             if namepath.name.__contains__(".txt"):
                 f = open(namepath.name,'r',encoding = 'utf-8') 
                 DataValue = f.readline().split()
-                print(f.readlines())
+                #print(f.readlines())
                 f.close()
                 return DataValue[0]
             else:
@@ -284,7 +284,7 @@ class ConverterWindow:
                 val = self.boostDesign(float(aux[0]),float(aux[1]),float(aux[2]),float(aux[3]),float(aux[4]),float(aux[6]))
                 self.DisplayConverter(val,"2")
             TFs = val
-            print(type(DataValue),DataValue,"\n",val)
+            #print(type(DataValue),DataValue,"\n",val)
     def btn_Discard(self):
         self.Vin.delete(0,END) 
         self.Vo.delete(0,END)
@@ -293,7 +293,7 @@ class ConverterWindow:
         self.Cripple.delete(0,END)
         self.Fs.delete(0,END)
         DataValue[1:] = [self.Vin.get(), self.Vo.get(), self.Po.get(), self.Vripple.get(), self.Cripple.get(), self.Topology.get(),  self.Fs.get()]
-        print(type(DataValue),DataValue)   
+        #print(type(DataValue),DataValue)   
         if self.newCanva:
             self.newCanva.destroy()
     def DisplayConverter(self,val,typeC):
@@ -363,7 +363,7 @@ class ConverterWindow:
     def margins(self,Gp1):
         [gm,Pm,w1,Wcp]=margin(Gp1)
         iniTgain=20*np.log10(np.real(Gp1(0)))
-        print(iniTgain)
+        #print(iniTgain)
         if (gm>0 and gm<6) or (Pm>0 and Pm<10):
             st='Marginally'
         elif (gm>6) and (Pm>10):
@@ -402,7 +402,7 @@ class ConverterWindow:
         
     def previousVal(self,*args):
         global DataValue
-        print(DataValue)
+        #print(DataValue)
         self.Vin.delete(0,END) 
         self.Vo.delete(0,END)
         self.Po.delete(0,END)
@@ -420,7 +420,6 @@ class ConverterWindow:
             self.typesC.set(str(DataValue[6]))
             self.Fs.insert(0,str(DataValue[7]))
             
-    
     def infobox(self,*args):        
         value = str(self.typesC.get())
         if value == "Buck": 
@@ -519,34 +518,47 @@ class DesignWindow:
             messagebox.showwarning(title = "Warning", message="Fill all entry values")
         else:
             DataValue[8:] = aux
-            print(type(DataValue),DataValue)
-            print(aux,TFs)
+            #print(type(DataValue),DataValue)
+            #print(aux,TFs)
             if str(self.controller.get()) == "FOPID":
                 val = self.fopidKhazali(TFs[8],float(aux[0]))
-                self.DisplayGraphs()
+                self.DisplayGraphs(str(val[0]))
         Parameters = val
-        print(type(DataValue),DataValue,val)
+        if len(Parameters) > 1:
+            self.PmD2['text'] = str(Parameters[20])
+            self.GmD2['text'] = str(Parameters[19])
+            self.G02['text'] =str(Parameters[21])
+            self.Stable2['text'] =str(Parameters[22])
+        
+        #print(type(DataValue),DataValue,val,"\n",Parameters)
 
     def btn_Discard(self):
+        global Parameters
         self.PmE.delete(0,END) 
         self.GmE.delete(0,END)
         self.controller.delete(0,END)
         aux = [self.PmE.get(), self.GmE.get(), self.controller.get()]
         DataValue[8:] = aux
-        print(type(DataValue),DataValue) 
+        Parameters = [""]
+        #print(type(DataValue),DataValue) 
         if self.newCanva:
             self.newCanva.destroy()
+        self.PmD2['text'] = "Value"
+        self.GmD2['text'] = "Value"
+        self.G02['text'] ="Value"
+        self.Stable2['text'] ="Value"
 
-
-    def DisplayGraphs(self):
+    def DisplayGraphs(self,val):
         self.newCanva = Canvas(self.master, bg = "#3A4C4E",height = 520, width = 829, bd = 0, highlightthickness = 0, relief = "ridge")
         self.newCanva.place(x = "402", y = "135")
+        self.newCanva.create_text(300.0, 300.0, text = val, fill = "#ffffff", font = ("Calibri", int(12.0)))
 
     def previousVal(self,*args):
         global DataValue
         global TFs
         global Parameters
-        print(DataValue)
+        #print(DataValue)
+        #print(Parameters)
         self.PmE.delete(0,END)
         self.GmE.delete(0,END)
         if  len(DataValue) < 11:
@@ -557,8 +569,8 @@ class DesignWindow:
             self.controller.insert(0,str(DataValue[10]))
             
         if len(TFs) > 1:
-            self.PmD1['text'] = str(TFs[9])
-            self.GmD1['text'] = str(TFs[10])
+            self.PmD1['text'] = str(TFs[10])
+            self.GmD1['text'] = str(TFs[9])
             self.G01['text'] =str(TFs[11])
             self.Stable1['text'] =str(TFs[12])
         else:
@@ -568,22 +580,28 @@ class DesignWindow:
             self.Stable1['text'] ="Value"
         
         if len(Parameters) > 1:
-            self.fraccValue = [str(Parameters[19]),str(Parameters[20]),str(Parameters[21]),str(Parameters[22])]
+            self.PmD2['text'] = str(Parameters[20])
+            self.GmD2['text'] = str(Parameters[19])
+            self.G02['text'] =str(Parameters[21])
+            self.Stable2['text'] =str(Parameters[22])
         else:
-            self.fraccValue = ["Value","Value","Value","Value"]
-    
+            self.PmD2['text'] = "Value"
+            self.GmD2['text'] = "Value"
+            self.G02['text'] ="Value"
+            self.Stable2['text'] ="Value"
+
     def fopidKhazali(self,Gp1,Pmd):
         #Funcion fopidKhazali
         #Entradas: TF, margen fase deseado 'Pmd'
         #Salidas: -
         plt.style.use('seaborn-whitegrid')
         sys1 = Gp1
-        print(Gp1)
+        #print(Gp1)
         [gm,Pm,w1,Wcp]=margin(Gp1)
         Pp=-180+Pm
         ##-- Caracteristicas deseadas
         Wcf=Wcp
-        print(Wcf)
+        #print(Wcf)
         alfa= (Pmd -180- Pp)/90
         Pc=(Pmd -180- Pp)*pi/180
         flag=0
@@ -605,14 +623,14 @@ class DesignWindow:
         a1 = 6 * alfa * math.tan((2 - alfa) * pi / 4)
 
         N_alfa = [a0, (a1 * Wcf), (a2 * Wcf**2)]
-        print(alfa)
+        #print(alfa)
         D_alfa = [a2, (a1 * Wcf), (a0 * Wcf**2)]
         
         if flag==0:
             s_alfa = tf(N_alfa, D_alfa)
         elif flag==1:
             s_alfa = tf(D_alfa, N_alfa)
-        print("s_alfa",s_alfa)
+        #print("s_alfa",s_alfa)
         ## ----- Calculo de parametros
         a=1
         b=1
@@ -641,7 +659,7 @@ class DesignWindow:
                 b=b-0.5*((1-fval)/1)   
 
         Gc=minreal(Gc,0.1)
-        print(Gc)
+        #print(Gc)
         #Gc=tf([3.095, 5.928e04, 3.418e08, 5.549e11, 2.712e14],[1, 3.921e04, 3.802e08, 1.114e12, 8.071e14]) 
         num,den = tfdata(Gc)
         NumArray = np.array(num[0])
@@ -664,7 +682,7 @@ class DesignWindow:
 
         Ri1,Ri2,Ri3,Ri4,Ri5,Rf1,Rf2,Rf3,Rf4,Rf5,C1,C2,C3,C4,R1,R2,R3,R4=0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 
-        print(G1,G2,G3,G4,k,RC1,RC2,RC3,RC4)
+        #print(G1,G2,G3,G4,k,RC1,RC2,RC3,RC4)
         try:
             if(G1<100 and G1>0.1):
                 Ri3=10000
@@ -673,7 +691,7 @@ class DesignWindow:
             if(G1<0.001 and G1>0.0001):
                 Ri3=500000
             Rf3=G1*Ri3
-            print(Ri3,Rf3)
+            #print(Ri3,Rf3)
 
             G2=-G2
             if(G2<100 and G2>0.1):
@@ -683,7 +701,7 @@ class DesignWindow:
             if(G2<0.001 and G2>0.0001):
                 Ri1=500000
             Rf1=G2*Ri1
-            print(Ri1,Rf1)
+            #print(Ri1,Rf1)
 
             if(G3<100 and G3>0.1):
                 Ri4=10000
@@ -692,7 +710,7 @@ class DesignWindow:
             if(G3<0.001 and G3>0.0001):
                 Ri4=500000
             Rf4=G3*Ri4
-            print(Ri4,Rf4)
+            #print(Ri4,Rf4)
 
             G4=-G4
             if(G4<100 and G4>0.1):
@@ -702,7 +720,7 @@ class DesignWindow:
             if(G4<0.001 and G4>0.0001):
                 Ri2=500000
             Rf2=G4*Ri2
-            print(Ri2,Rf2)
+            #print(Ri2,Rf2)
 
             if(k<100 and k>0.1):
                 Ri5=10000
@@ -711,7 +729,7 @@ class DesignWindow:
             if(k<0.001 and k>0.0001):
                 Ri5=500000
             Rf5=k[0]*Ri5
-            print(Ri5,Rf5)
+            #print(Ri5,Rf5)
 
 
             if(RC1<1 and RC1>0.001):
@@ -721,7 +739,7 @@ class DesignWindow:
             if(RC1<0.00001 and RC1>0.0000001):
                 C1=0.000000001
             R1=RC1/C1
-            print(R1,C1)
+            #print(R1,C1)
 
             if(RC2<1 and RC2>0.001):
                 C2=0.000001
@@ -730,7 +748,7 @@ class DesignWindow:
             if(RC2<0.00001 and RC2>0.0000001):
                 C2=0.000000001
             R2=RC2/C2
-            print(R2,C2)
+            #print(R2,C2)
 
             if(RC3<1 and RC3>0.001):
                 C3=0.000001
@@ -739,7 +757,7 @@ class DesignWindow:
             if(RC3<0.00001 and RC3>0.0000001):
                 C3=0.000000001
             R3=RC3/C3
-            print(R3,C3)
+            #print(R3,C3)
 
             if(RC4<1 and RC4>0.001):
                 C4=0.000001
@@ -748,7 +766,7 @@ class DesignWindow:
             if(RC4<0.00001 and RC4>0.0000001):
                 C4=0.000000001
             R4=RC4/C4
-            print(R4,C4)
+            #print(R4,C4)
         except:
             print("No implemenmtable")
 
@@ -759,7 +777,7 @@ class DesignWindow:
         #step(feedback(Gp1,1))
 
         yout, T = step(feedback(Gp1,1))
-        print(T[len(T)-1])
+        #print(T[len(T)-1])
         yout2, T2 = step(feedback(Gp1*Gc,1),T=0.001)
 
         # plot
@@ -778,14 +796,14 @@ class DesignWindow:
         plt.tight_layout()
         plt.savefig("step.png",dpi=100)
         #files.download("step.png")  ################################Solo para Colab
-        plt.show()
+        #plt.show()
         [Gm,Pm,G_0,Stability]=self.margins(Gp1*Gc)
         return(Gc,Ri1,Ri2,Ri3,Ri4,Ri5,Rf1,Rf2,Rf3,Rf4,Rf5,C1,C2,C3,C4,R1,R2,R3,R4,Gm,Pm,G_0,Stability)
     
     def margins(self,Gp1):
         [gm,Pm,w1,Wcp]=margin(Gp1)
         iniTgain=20*np.log10(np.real(Gp1(0)))
-        print(iniTgain)
+        #print(iniTgain)
         if (gm>0 and gm<6) or (Pm>0 and Pm<10):
             st='Marginally'
         elif (gm>6) and (Pm>10):
@@ -861,6 +879,8 @@ class ImplementWindow:
                 self.newCanva.create_image(414, 260, image=self.BgEx)
                 self.AnalogRC_img = ImageTk.PhotoImage(file = f"Values_RC.png")
                 self.newCanva.create_image(690.0, 275, image=self.AnalogRC_img)
+                self.AnalogFr_img = ImageTk.PhotoImage(file = f"AnalogFrac.png")
+                self.newCanva.create_image(290.0, 260, image=self.AnalogFr_img)
                 #internal labels
                 self.R1 = Label(self.newCanva, fg="#000000",bd = 0, bg = "#ffffff", text = "Value",highlightthickness = 0, anchor= "e")
                 self.R2 = Label(self.newCanva, fg="#000000",bd = 0, bg = "#ffffff", text = "Value",highlightthickness = 0, anchor= "e")
@@ -912,6 +932,8 @@ class ImplementWindow:
 
     def btn_saveDesign(self):
         global Parameters
+        aux = ""
+        print(Parameters)
         if len(Parameters) > 12:  
             aux = "R1,"+ str(Parameters[15]) +"\nR2,"+ str(Parameters[16]) +"\nR3,"+ str(Parameters[17]) +"\nR4,"+ str(Parameters[18]),
             + "\nRf1,"+ str(Parameters[6]) +"\nRf2,"+ str(Parameters[7]) +"\nRf3,"+ str(Parameters[8]) +"\nRf4,"+ str(Parameters[9]) +"\nRf5,"+ str(Parameters[10]),
@@ -932,8 +954,6 @@ class ImplementWindow:
     
     def VerifyValues(self):
         pass
-
-
 
     def btn_Discard(self,value): 
         aux = self.structure.get()
