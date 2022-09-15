@@ -450,21 +450,107 @@ class ImplementWindow:
         self.bg2_img = ImageTk.PhotoImage(file = f"background1.png")
         background = self.canva.create_image(640.0, 366.0, image=self.bg2_img)
         self.DesignBtn()
+        self.GralEntry()
+    def GralEntry(self):
+        #Label of comboBox
+        self.canva.create_text(181.0, 154.5, text = "Structure               =", fill = "#ffffff", font = ("Calibri", int(12.0)))
+        self.canva.create_text(181.0, 303.5, text = "Target                  =", fill = "#ffffff", font = ("Calibri", int(12.0)))
+        
+        #ComboBox
+        self.structure = Combobox(background="#d9d9d9", values = ["RC"])
+        self.Target = Combobox(background="#d9d9d9", values = ["C"])
+
+        self.structure.place(x = 250.0, y = 147, width = 95.0, height = 15)
+        self.Target.place(x = 250.0, y = 296, width = 95.0, height = 15)
+    
     def DesignBtn(self):
         #image Button
-        self.AnalogIMG = ImageTk.PhotoImage(file = f"Analog.png")
-        self.DigitalIMG = ImageTk.PhotoImage(file = f"Digital.png")
+        self.ApplyImg = ImageTk.PhotoImage(file = f"Apply.png")
+        self.DiscardImg = ImageTk.PhotoImage(file = f"Discard.png")
         # create button
-        self.AnalogBtn = Button( image = self.AnalogIMG, borderwidth = 0, highlightthickness = 0, command = self.btn_Action, relief = "flat")
-        self.DigitaBtn = Button( image = self.DigitalIMG, borderwidth = 0, highlightthickness = 0, command = self.btn_Action, relief = "flat")
+        self.AnalogBtn1 = Button( image = self.ApplyImg, borderwidth = 0, highlightthickness = 0, command = lambda:self.btn_Apply("1"), relief = "flat")
+        self.AnalogBtn2 = Button( image = self.DiscardImg, borderwidth = 0, highlightthickness = 0, command = lambda:self.btn_Discard("1"), relief = "flat")
+        self.DigitaBtn1 = Button( image = self.ApplyImg, borderwidth = 0, highlightthickness = 0, command = lambda:self.btn_Apply("2"), relief = "flat")
+        self.DigitaBtn2 = Button( image = self.DiscardImg, borderwidth = 0, highlightthickness = 0, command = lambda:self.btn_Discard("2"), relief = "flat")
         #set button place
-        self.AnalogBtn.place(x = 130, y = 170, width = 109, height = 26)
-        self.DigitaBtn.place(x = 282, y = 170, width = 109, height = 26)
+        self.AnalogBtn1.place(x = 125, y = 191, width = 109, height = 26)
+        self.AnalogBtn2.place(x = 241, y = 191, width = 109, height = 26)
+        self.DigitaBtn1.place(x = 125, y = 379, width = 109, height = 26)
+        self.DigitaBtn2.place(x = 241, y = 379, width = 109, height = 26)
 
-        self.DigitaBtn['state'] = DISABLED
+        self.DigitaBtn1['state'] = DISABLED
+        self.DigitaBtn2['state'] = DISABLED
         
-    def btn_Action(self):
+    def btn_Apply(self,value):
+        aux = self.structure.get()
+        if value == "1":    
+            if aux == 'RC':
+                self.newCanva = Canvas(self.master, bg = "#3A4C4E",height = 520, width = 829, bd = 0, highlightthickness = 0, relief = "ridge")
+                self.newCanva.place(x = "402", y = "135")
+                self.BgEx = ImageTk.PhotoImage(file = f"BgEx.png")
+                self.newCanva.create_image(414, 260, image=self.BgEx)
+                self.AnalogRC_img = ImageTk.PhotoImage(file = f"Values_RC.png")
+                self.newCanva.create_image(690.0, 275, image=self.AnalogRC_img)
+                #internal labels
+                self.R1 = Label(self.newCanva, fg="#000000",bd = 0, bg = "#ffffff", text = "Value",highlightthickness = 0, anchor= "e")
+                self.R2 = Label(self.newCanva, fg="#000000",bd = 0, bg = "#ffffff", text = "Value",highlightthickness = 0, anchor= "e")
+                self.R3 = Label(self.newCanva, fg="#000000",bd = 0, bg = "#ffffff", text = "Value",highlightthickness = 0, anchor= "e")
+                self.R4 = Label(self.newCanva, fg="#000000",bd = 0, bg = "#ffffff", text = "Value",highlightthickness = 0, anchor= "e")
+                
+                self.Rf1 = Label(self.newCanva, fg="#000000",bd = 0, bg = "#ffffff", text = "Value",highlightthickness = 0, anchor= "e")
+                self.Rf2 = Label(self.newCanva, fg="#000000",bd = 0, bg = "#ffffff", text = "Value",highlightthickness = 0, anchor= "e")
+                self.Rf3 = Label(self.newCanva, fg="#000000",bd = 0, bg = "#ffffff", text = "Value",highlightthickness = 0, anchor= "e")
+                self.Rf4 = Label(self.newCanva, fg="#000000",bd = 0, bg = "#ffffff", text = "Value",highlightthickness = 0, anchor= "e")
+                self.Rf5 = Label(self.newCanva, fg="#000000",bd = 0, bg = "#ffffff", text = "Value",highlightthickness = 0, anchor= "e")
+
+                self.Ri1 = Label(self.newCanva, fg="#000000",bd = 0, bg = "#ffffff", text = "Value",highlightthickness = 0, anchor= "e")
+                self.R = Label(self.newCanva, fg="#000000",bd = 0, bg = "#ffffff", text = "Value",highlightthickness = 0, anchor= "e")
+                self.C1 = Label(self.newCanva, fg="#000000",bd = 0, bg = "#ffffff", text = "Value",highlightthickness = 0, anchor= "e")
+                
+                self.R1.place(x = 690, y = 60, width = 105, height = 15)
+                self.R2.place(x = 690, y = 95, width = 105, height = 15)
+                self.R3.place(x = 690, y = 130, width = 105, height = 15)
+                self.R4.place(x = 690, y = 165, width = 105, height = 15)
+
+                self.Rf1.place(x = 690, y = 200, width = 105, height = 15)
+                self.Rf2.place(x = 690, y = 235, width = 105, height = 15)
+                self.Rf3.place(x = 690, y = 270, width = 105, height = 15)
+                self.Rf4.place(x = 690, y = 305, width = 105, height = 15)
+                self.Rf5.place(x = 690, y = 340, width = 105, height = 15)
+
+                self.Ri1.place(x = 690, y = 375, width = 105, height = 15)
+                self.R.place(x = 690, y = 410, width = 105, height = 15)
+                self.C1.place(x = 690, y = 445, width = 105, height = 15)
+                # creacion textos
+                self.newCanva.create_text( 630.0, 66, text = "R1             =", fill = "#ffffff", font = ("Calibri", int(12.0)))
+                self.newCanva.create_text( 630.0, 101, text = "R2             =", fill = "#ffffff", font = ("Calibri", int(12.0)))
+                self.newCanva.create_text( 630.0, 136, text = "R3             =", fill = "#ffffff", font = ("Calibri", int(12.0)))
+                self.newCanva.create_text( 630.0, 171, text = "R4             =", fill = "#ffffff", font = ("Calibri", int(12.0)))
+
+                self.newCanva.create_text( 630.0, 206, text = "Rf1            =", fill = "#ffffff", font = ("Calibri", int(12.0)))
+                self.newCanva.create_text( 630.0, 241, text = "Rf2            =", fill = "#ffffff", font = ("Calibri", int(12.0)))
+                self.newCanva.create_text( 630.0, 276, text = "Rf3            =", fill = "#ffffff", font = ("Calibri", int(12.0)))
+                self.newCanva.create_text( 630.0, 311, text = "Rf4            =", fill = "#ffffff", font = ("Calibri", int(12.0)))
+                self.newCanva.create_text( 630.0, 346, text = "Rf5             =", fill = "#ffffff", font = ("Calibri", int(12.0)))
+                
+                self.newCanva.create_text( 630.0, 381, text = "Ri1-i5         =", fill = "#ffffff", font = ("Calibri", int(12.0)))
+                self.newCanva.create_text( 630.0, 416, text = "R                =", fill = "#ffffff", font = ("Calibri", int(12.0)))
+                self.newCanva.create_text( 630.0, 451, text = "C1-C5         =", fill = "#ffffff", font = ("Calibri", int(12.0)))
+
+                self.btnSave = Button(self.newCanva, text = "Save", fg = "#ffffff", bg = "#303F40", font = ("Calibri", int(12.0)),   borderwidth = 0, highlightthickness = 0, command = self.btn_saveDesign, relief = "flat")
+                self.btnSave.place(x = 25, y = 480, width = 109, height = 26)
+
+    def btn_saveDesign(self):
         pass
+
+
+
+
+    def btn_Discard(self,value): 
+        aux = self.structure.get()
+        if aux == 'RC':
+            self.newCanva.destroy()
+
 class SummaryWindow:
     def __init__(self,master=None,canva=None):
         super().__init__()
