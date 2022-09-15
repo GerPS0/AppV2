@@ -294,6 +294,8 @@ class ConverterWindow:
         self.Fs.delete(0,END)
         DataValue[1:] = [self.Vin.get(), self.Vo.get(), self.Po.get(), self.Vripple.get(), self.Cripple.get(), self.Topology.get(),  self.Fs.get()]
         #print(type(DataValue),DataValue)   
+        global TFs
+        TFs = [""]
         if self.newCanva:
             self.newCanva.destroy()
     def DisplayConverter(self,val,typeC):
@@ -318,12 +320,12 @@ class ConverterWindow:
         self.newCanva.create_text( 630.0, 171, text = "Duty          =", fill = "#ffffff", font = ("Calibri", int(12.0)))
 
         if typeC == "1":           
-            self.buckimg = ImageTk.PhotoImage(file = f"buck.png")
+            self.buckimg = ImageTk.PhotoImage(file = f"Buck.png")
             self.newCanva.create_image(300.0, 200.0, image=self.buckimg) 
 
             self.newCanva.create_text(650.0, 250, text = str(val[8]), fill = "#ffffff", font = ("Calibri", int(12.0)))
         if typeC == "2":
-            self.buckimg = ImageTk.PhotoImage(file = f"buck.png")
+            self.buckimg = ImageTk.PhotoImage(file = f"Boost.png")
             self.newCanva.create_image(300.0, 200.0, image=self.buckimg) 
 
             self.newCanva.create_text(650.0, 250, text = str(val[8]), fill = "#ffffff", font = ("Calibri", int(12.0)))
@@ -552,6 +554,12 @@ class DesignWindow:
         self.newCanva = Canvas(self.master, bg = "#3A4C4E",height = 520, width = 829, bd = 0, highlightthickness = 0, relief = "ridge")
         self.newCanva.place(x = "402", y = "135")
         self.newCanva.create_text(300.0, 300.0, text = val, fill = "#ffffff", font = ("Calibri", int(12.0)))
+        
+        self.bodeimg = ImageTk.PhotoImage(file = f"bode.png")
+        self.newCanva.create_image(200.0, 200.0, image=self.bodeimg)
+    
+        self.stepimg = ImageTk.PhotoImage(file = f"step.png")
+        self.newCanva.create_image(300.0, 200.0, image=self.stepimg)
 
     def previousVal(self,*args):
         global DataValue
@@ -771,7 +779,7 @@ class DesignWindow:
             print("No implemenmtable")
 
         mag, phase, deg,  = bode([Gp1,Gp1*Gc], Hz=True)
-        plt.savefig("bode.png",dpi=300)
+        plt.savefig("bode.png",dpi=100)
         #files.download("bode.png") ################################Solo para Colab
         #bode([Gp1,Gp1*Gc])
         #step(feedback(Gp1,1))
@@ -782,8 +790,6 @@ class DesignWindow:
 
         # plot
         fig, ax = plt.subplots()
-
-
         ax.plot(T, yout, linewidth=2.0)
 
         ax.plot(T2, yout2, linewidth=2.0)
@@ -871,6 +877,12 @@ class ImplementWindow:
         
     def btn_Apply(self,value):
         aux = self.structure.get()
+        global Parameters
+        if len(Parameters) < 12:
+            ValueP = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+        else:
+            ValueP = Parameters[1:len(Parameters)-4]
+        print(ValueP)
         if value == "1":    
             if aux == 'RC':
                 self.newCanva = Canvas(self.master, bg = "#3A4C4E",height = 520, width = 829, bd = 0, highlightthickness = 0, relief = "ridge")
@@ -882,20 +894,20 @@ class ImplementWindow:
                 self.AnalogFr_img = ImageTk.PhotoImage(file = f"AnalogFrac.png")
                 self.newCanva.create_image(290.0, 260, image=self.AnalogFr_img)
                 #internal labels
-                self.R1 = Label(self.newCanva, fg="#000000",bd = 0, bg = "#ffffff", text = "Value",highlightthickness = 0, anchor= "e")
-                self.R2 = Label(self.newCanva, fg="#000000",bd = 0, bg = "#ffffff", text = "Value",highlightthickness = 0, anchor= "e")
-                self.R3 = Label(self.newCanva, fg="#000000",bd = 0, bg = "#ffffff", text = "Value",highlightthickness = 0, anchor= "e")
-                self.R4 = Label(self.newCanva, fg="#000000",bd = 0, bg = "#ffffff", text = "Value",highlightthickness = 0, anchor= "e")
+                self.R1 = Label(self.newCanva, fg="#000000",bd = 0, bg = "#ffffff", text = str(ValueP[14]),highlightthickness = 0, anchor= "e")
+                self.R2 = Label(self.newCanva, fg="#000000",bd = 0, bg = "#ffffff", text = str(ValueP[15]),highlightthickness = 0, anchor= "e")
+                self.R3 = Label(self.newCanva, fg="#000000",bd = 0, bg = "#ffffff", text = str(ValueP[16]),highlightthickness = 0, anchor= "e")
+                self.R4 = Label(self.newCanva, fg="#000000",bd = 0, bg = "#ffffff", text = str(ValueP[17]),highlightthickness = 0, anchor= "e")
                 
-                self.Rf1 = Label(self.newCanva, fg="#000000",bd = 0, bg = "#ffffff", text = "Value",highlightthickness = 0, anchor= "e")
-                self.Rf2 = Label(self.newCanva, fg="#000000",bd = 0, bg = "#ffffff", text = "Value",highlightthickness = 0, anchor= "e")
-                self.Rf3 = Label(self.newCanva, fg="#000000",bd = 0, bg = "#ffffff", text = "Value",highlightthickness = 0, anchor= "e")
-                self.Rf4 = Label(self.newCanva, fg="#000000",bd = 0, bg = "#ffffff", text = "Value",highlightthickness = 0, anchor= "e")
-                self.Rf5 = Label(self.newCanva, fg="#000000",bd = 0, bg = "#ffffff", text = "Value",highlightthickness = 0, anchor= "e")
+                self.Rf1 = Label(self.newCanva, fg="#000000",bd = 0, bg = "#ffffff", text = str(ValueP[5]),highlightthickness = 0, anchor= "e")
+                self.Rf2 = Label(self.newCanva, fg="#000000",bd = 0, bg = "#ffffff", text = str(ValueP[6]),highlightthickness = 0, anchor= "e")
+                self.Rf3 = Label(self.newCanva, fg="#000000",bd = 0, bg = "#ffffff", text = str(ValueP[7]),highlightthickness = 0, anchor= "e")
+                self.Rf4 = Label(self.newCanva, fg="#000000",bd = 0, bg = "#ffffff", text = str(ValueP[8]),highlightthickness = 0, anchor= "e")
+                self.Rf5 = Label(self.newCanva, fg="#000000",bd = 0, bg = "#ffffff", text = str(ValueP[9]),highlightthickness = 0, anchor= "e")
 
-                self.Ri1 = Label(self.newCanva, fg="#000000",bd = 0, bg = "#ffffff", text = "Value",highlightthickness = 0, anchor= "e")
-                self.R = Label(self.newCanva, fg="#000000",bd = 0, bg = "#ffffff", text = "Value",highlightthickness = 0, anchor= "e")
-                self.C1 = Label(self.newCanva, fg="#000000",bd = 0, bg = "#ffffff", text = "Value",highlightthickness = 0, anchor= "e")
+                self.Ri1 = Label(self.newCanva, fg="#000000",bd = 0, bg = "#ffffff", text = str(ValueP[0]),highlightthickness = 0, anchor= "e")
+                self.R = Label(self.newCanva, fg="#000000",bd = 0, bg = "#ffffff", text = str(ValueP[1]),highlightthickness = 0, anchor= "e")
+                self.C1 = Label(self.newCanva, fg="#000000",bd = 0, bg = "#ffffff", text = str(ValueP[11]),highlightthickness = 0, anchor= "e")
                 
                 self.R1.place(x = 690, y = 60, width = 105, height = 15)
                 self.R2.place(x = 690, y = 95, width = 105, height = 15)
@@ -933,12 +945,12 @@ class ImplementWindow:
     def btn_saveDesign(self):
         global Parameters
         aux = ""
-        print(Parameters)
+        #print(Parameters)
         if len(Parameters) > 12:  
-            aux = "R1,"+ str(Parameters[15]) +"\nR2,"+ str(Parameters[16]) +"\nR3,"+ str(Parameters[17]) +"\nR4,"+ str(Parameters[18]),
-            + "\nRf1,"+ str(Parameters[6]) +"\nRf2,"+ str(Parameters[7]) +"\nRf3,"+ str(Parameters[8]) +"\nRf4,"+ str(Parameters[9]) +"\nRf5,"+ str(Parameters[10]),
-            + "\nRi1,"+ str(Parameters[1]) +"\nRi2,"+ str(Parameters[2]) +"\nRi3,"+ str(Parameters[3]) +"\nRi4,"+ str(Parameters[4]) +"\nRi5,"+ str(Parameters[5]),
-            + "\nC1,"+ str(Parameters[11]) +"\nC2,"+ str(Parameters[12]) +"\nC3,"+ str(Parameters[13]) +"\nC4,"+ str(Parameters[14])    
+            aux = "R1,"+str(Parameters[15])+"\nR2,"+str(Parameters[16])+"\nR3,"+str(Parameters[17])+"\nR4,"+str(Parameters[18])
+            aux = aux+"\nRf1,"+str(Parameters[6])+"\nRf2,"+str(Parameters[7])+"\nRf3,"+str(Parameters[8])+"\nRf4,"+str(Parameters[9])+"\nRf5,"+str(Parameters[10])
+            aux = aux+"\nRi1,"+str(Parameters[1])+"\nRi2,"+str(Parameters[2])+"\nRi3,"+str(Parameters[3])+"\nRi4,"+str(Parameters[4])+"\nRi5,"+str(Parameters[5])
+            aux = aux+"\nC1,"+str(Parameters[11])+"\nC2,"+str(Parameters[12])+"\nC3,"+str(Parameters[13])+"\nC4,"+str(Parameters[14])  
         fname = filedialog.asksaveasfilename()
         try:
             if fname.__contains__(".txt"):
