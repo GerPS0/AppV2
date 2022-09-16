@@ -17,7 +17,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from sympy import *
 
-
+#Variables globales
 DataValue = ["1"]
 TFs = [""]
 pantalla = "1"
@@ -296,8 +296,11 @@ class ConverterWindow:
         #print(type(DataValue),DataValue)   
         global TFs
         TFs = [""]
-        if self.newCanva:
-            self.newCanva.destroy()
+        try:
+            if self.newCanva:
+                self.newCanva.destroy()
+        except:
+            pass
     def DisplayConverter(self,val,typeC):
         self.newCanva = Canvas(self.master, bg = "#3A4C4E",height = 520, width = 829, bd = 0, highlightthickness = 0, relief = "ridge")
         self.newCanva.place(x = "402", y = "135")
@@ -320,15 +323,20 @@ class ConverterWindow:
         self.newCanva.create_text( 630.0, 171, text = "Duty          =", fill = "#ffffff", font = ("Calibri", int(12.0)))
 
         if typeC == "1":           
-            self.buckimg = ImageTk.PhotoImage(file = f"Buck.png")
-            self.newCanva.create_image(300.0, 200.0, image=self.buckimg) 
-
-            self.newCanva.create_text(650.0, 250, text = str(val[8]), fill = "#ffffff", font = ("Calibri", int(12.0)))
+            img = Image.open(f"Buck.png")
+            img.reduce(5)
+            self.buckimg = ImageTk.PhotoImage(img)
+            img.close()
+            self.newCanva.create_image(300.0, 200.0, image=self.buckimg)
+            
         if typeC == "2":
-            self.buckimg = ImageTk.PhotoImage(file = f"Boost.png")
-            self.newCanva.create_image(300.0, 200.0, image=self.buckimg) 
-
-            self.newCanva.create_text(650.0, 250, text = str(val[8]), fill = "#ffffff", font = ("Calibri", int(12.0)))
+            img = Image.open(f"Boost.png")
+            img.reduce(5)
+            self.boostimg = ImageTk.PhotoImage(img)
+            img.close()
+            self.newCanva.create_image(300.0, 200.0, image=self.boostimg) 
+        
+        self.newCanva.create_text(650.0, 250, text = str(val[8]), fill = "#ffffff", font = ("Calibri", int(12.0)))
 
     def buckDesign(self,Vi,Vo,Po,deltaVo,deltaIl,Fsw):
     #Funcion BUCK DESIGN
@@ -372,6 +380,10 @@ class ConverterWindow:
             st='Stable'
         else:
             st='Unstable'
+        gm = "{:.4f}".format(gm)
+        Pm = "{:.4f}".format(Pm)
+        iniTgain = "{:.4f}".format(iniTgain)
+
         return(gm,Pm,iniTgain,st)
 
     def entryBox1(self):
@@ -518,6 +530,7 @@ class DesignWindow:
         aux = [self.PmE.get(), self.GmE.get(), self.controller.get()]
         if aux.__contains__(""):
             messagebox.showwarning(title = "Warning", message="Fill all entry values")
+            val = ""
         else:
             DataValue[8:] = aux
             #print(type(DataValue),DataValue)
@@ -543,8 +556,11 @@ class DesignWindow:
         DataValue[8:] = aux
         Parameters = [""]
         #print(type(DataValue),DataValue) 
-        if self.newCanva:
-            self.newCanva.destroy()
+        try:
+            if self.newCanva:
+                self.newCanva.destroy()
+        except:
+            pass
         self.PmD2['text'] = "Value"
         self.GmD2['text'] = "Value"
         self.G02['text'] ="Value"
@@ -553,13 +569,14 @@ class DesignWindow:
     def DisplayGraphs(self,val):
         self.newCanva = Canvas(self.master, bg = "#3A4C4E",height = 520, width = 829, bd = 0, highlightthickness = 0, relief = "ridge")
         self.newCanva.place(x = "402", y = "135")
-        self.newCanva.create_text(300.0, 300.0, text = val, fill = "#ffffff", font = ("Calibri", int(12.0)))
+        self.newCanva.create_text(414.5, 400.0, text = "Controlled plant transfer function", fill = "#ffffff", font = ("Calibri", int(12.0)))
+        self.newCanva.create_text(414.5, 450.0, text = val, fill = "#ffffff", font = ("Calibri", int(12.0)))
         
         self.bodeimg = ImageTk.PhotoImage(file = f"bode.png")
-        self.newCanva.create_image(200.0, 200.0, image=self.bodeimg)
+        self.newCanva.create_image(623.0, 170.0, image=self.bodeimg)
     
         self.stepimg = ImageTk.PhotoImage(file = f"step.png")
-        self.newCanva.create_image(300.0, 200.0, image=self.stepimg)
+        self.newCanva.create_image(200.0, 170.0, image=self.stepimg)
 
     def previousVal(self,*args):
         global DataValue
@@ -777,9 +794,9 @@ class DesignWindow:
             #print(R4,C4)
         except:
             print("No implemenmtable")
-
-        mag, phase, deg,  = bode([Gp1,Gp1*Gc], Hz=True)
-        plt.savefig("bode.png",dpi=100)
+        plt.figure(figsize = (5,4), dpi = 77)
+        mag, phase, deg= bode([Gp1,Gp1*Gc], Hz=True)
+        plt.savefig("bode.png")
         #files.download("bode.png") ################################Solo para Colab
         #bode([Gp1,Gp1*Gc])
         #step(feedback(Gp1,1))
@@ -789,9 +806,9 @@ class DesignWindow:
         yout2, T2 = step(feedback(Gp1*Gc,1),T=0.001)
 
         # plot
-        fig, ax = plt.subplots()
+        
+        fig, ax = plt.subplots(figsize = (5,4), dpi = 77)
         ax.plot(T, yout, linewidth=2.0)
-
         ax.plot(T2, yout2, linewidth=2.0)
         #ax.plot(T2, yout2, linewidth=2.0)
 
@@ -800,7 +817,7 @@ class DesignWindow:
         plt.xticks(rotation=90)
         plt.ticklabel_format(axis="x", style="sci", scilimits=(0,0))
         plt.tight_layout()
-        plt.savefig("step.png",dpi=100)
+        plt.savefig("step.png")
         #files.download("step.png")  ################################Solo para Colab
         #plt.show()
         [Gm,Pm,G_0,Stability]=self.margins(Gp1*Gc)
@@ -816,6 +833,10 @@ class DesignWindow:
             st='Stable'
         else:
             st='Unstable'
+
+        gm = "{:.4f}".format(gm)
+        Pm = "{:.4f}".format(Pm)
+        iniTgain = "{:.4f}".format(iniTgain)
         return(gm,Pm,iniTgain,st)
        
 class ElementWindow:
