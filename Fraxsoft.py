@@ -1,4 +1,3 @@
-
 from encodings import utf_8
 from fileinput import close
 from operator import contains
@@ -79,7 +78,7 @@ class MainWindow:
             f.close()
             MainBackgraound(self.master,DataValue[0])
         else:
-            messagebox.showwarning(title = "Warning", message="Escoger un archivo correcto")   
+            messagebox.showwarning(title = "Warning", message="Select a correct file")   
     def btnHelp(self):
         pass     
 
@@ -180,7 +179,7 @@ class MainBackgraound:
                 f.close()
                 return DataValue[0]
             else:
-                messagebox.showwarning(title="file",message="select a correct file")
+                messagebox.showwarning(title="file",message="Select a correct file")
                 return "1"
         except:
             return "1"
@@ -437,15 +436,15 @@ class ConverterWindow:
     def infobox(self,*args):        
         value = str(self.typesC.get())
         if value == "Buck": 
-            txt = "The buck converter..."
+            txt = "The buck converter is a\nvoltage down regulator\nwhen the input voltage\nshould be greater than\nthe output voltage"
         if value == "Boost":           
-            txt = "The boost converter..."
+            txt = "The boost converter is a\nvoltage up regulator\nwhen the input voltage\nshould be fewer than\nthe output voltage"
         if value == "Buck/Boost":   
-            txt = "The buck/boost converter..."
+            txt = "The buck/boost converter can be\noperated as voltage down or\nup regulator"
         if value == "":
             txt = "select a topology"
         pass
-        message = Label(text = txt, font = ("Calibri", int(12.0)), fg = "#ffffff", bg= "#3A4C4E", justify= 'left')
+        message = Label(text = txt, font = ("Calibri", int(11.0)), fg = "#ffffff", bg= "#3A4C4E", justify= 'left',)
         message.place(x = 97.0, y = 410, width = 242, height = 100) 
 class DesignWindow:
     def __init__(self,master,canva):
@@ -529,7 +528,7 @@ class DesignWindow:
         DataValue[0] = pantalla
         aux = [self.PmE.get(), self.GmE.get(), self.controller.get()]
         if aux.__contains__(""):
-            messagebox.showwarning(title = "Warning", message="Fill all entry values")
+            messagebox.showwarning(title = "Warning", message="Fill all parameters values")
             val = ""
         else:
             DataValue[8:] = aux
@@ -678,13 +677,13 @@ class DesignWindow:
             if Pm>1.02*Pmd:
                 a=a-5*((Pmd-Pm)/Pmd) 
                 b=b+0.5*((1-fval)/1)     
-            if fval<0.98:
+            if fval<0.95:
                 b=b+0.5*((1-fval)/1)
-            if fval>1.02:
+            if fval>1.05:
                 b=b-0.5*((1-fval)/1)   
 
         Gc=minreal(Gc,0.1)
-        #print(Gc)
+        print(Gc)
         #Gc=tf([3.095, 5.928e04, 3.418e08, 5.549e11, 2.712e14],[1, 3.921e04, 3.802e08, 1.114e12, 8.071e14]) 
         num,den = tfdata(Gc)
         NumArray = np.array(num[0])
@@ -821,6 +820,22 @@ class DesignWindow:
         #files.download("step.png")  ################################Solo para Colab
         #plt.show()
         [Gm,Pm,G_0,Stability]=self.margins(Gp1*Gc)
+        
+        Ri1 = round(Ri1,2)
+        Ri2 = round(Ri2,2)
+        Ri3 = round(Ri3,2)
+        Ri4 = round(Ri4,2)
+        Ri5 = round(Ri5,2)
+        Rf1 = round(Rf1,2)
+        Rf2 = round(Rf2,2)
+        Rf3 = round(Rf3,2)
+        Rf4 = round(Rf4,2)
+        Rf5 = round(Rf5,2)
+        R1 = round(R1,2)
+        R2 = round(R2,2)
+        R3 = round(R3,2)
+        R4 = round(R4,2)
+        
         return(Gc,Ri1,Ri2,Ri3,Ri4,Ri5,Rf1,Rf2,Rf3,Rf4,Rf5,C1,C2,C3,C4,R1,R2,R3,R4,Gm,Pm,G_0,Stability)
     
     def margins(self,Gp1):
@@ -927,38 +942,64 @@ class ImplementWindow:
                 self.Rf5 = Label(self.newCanva, fg="#000000",bd = 0, bg = "#ffffff", text = str(ValueP[9]),highlightthickness = 0, anchor= "e")
 
                 self.Ri1 = Label(self.newCanva, fg="#000000",bd = 0, bg = "#ffffff", text = str(ValueP[0]),highlightthickness = 0, anchor= "e")
-                self.R = Label(self.newCanva, fg="#000000",bd = 0, bg = "#ffffff", text = str(ValueP[1]),highlightthickness = 0, anchor= "e")
-                self.C1 = Label(self.newCanva, fg="#000000",bd = 0, bg = "#ffffff", text = str(ValueP[11]),highlightthickness = 0, anchor= "e")
+                self.Ri2 = Label(self.newCanva, fg="#000000",bd = 0, bg = "#ffffff", text = str(ValueP[1]),highlightthickness = 0, anchor= "e")
+                self.Ri3 = Label(self.newCanva, fg="#000000",bd = 0, bg = "#ffffff", text = str(ValueP[2]),highlightthickness = 0, anchor= "e")
+                self.Ri4 = Label(self.newCanva, fg="#000000",bd = 0, bg = "#ffffff", text = str(ValueP[3]),highlightthickness = 0, anchor= "e")
+                self.Ri5 = Label(self.newCanva, fg="#000000",bd = 0, bg = "#ffffff", text = str(ValueP[4]),highlightthickness = 0, anchor= "e")
+                self.R = Label(self.newCanva, fg="#000000",bd = 0, bg = "#ffffff", text = str(10000),highlightthickness = 0, anchor= "e")
                 
-                self.R1.place(x = 690, y = 60, width = 105, height = 15)
-                self.R2.place(x = 690, y = 95, width = 105, height = 15)
-                self.R3.place(x = 690, y = 130, width = 105, height = 15)
-                self.R4.place(x = 690, y = 165, width = 105, height = 15)
+                
+                self.C1 = Label(self.newCanva, fg="#000000",bd = 0, bg = "#ffffff", text = str(ValueP[10]),highlightthickness = 0, anchor= "e")
+                self.C2 = Label(self.newCanva, fg="#000000",bd = 0, bg = "#ffffff", text = str(ValueP[11]),highlightthickness = 0, anchor= "e")
+                self.C3 = Label(self.newCanva, fg="#000000",bd = 0, bg = "#ffffff", text = str(ValueP[12]),highlightthickness = 0, anchor= "e")
+                self.C4 = Label(self.newCanva, fg="#000000",bd = 0, bg = "#ffffff", text = str(ValueP[13]),highlightthickness = 0, anchor= "e")
+                
+                self.R1.place(x = 690, y = 47, width = 105, height = 15)
+                self.R2.place(x = 690, y = 69, width = 105, height = 15)
+                self.R3.place(x = 690, y = 91, width = 105, height = 15)
+                self.R4.place(x = 690, y = 113, width = 105, height = 15)
 
-                self.Rf1.place(x = 690, y = 200, width = 105, height = 15)
-                self.Rf2.place(x = 690, y = 235, width = 105, height = 15)
-                self.Rf3.place(x = 690, y = 270, width = 105, height = 15)
-                self.Rf4.place(x = 690, y = 305, width = 105, height = 15)
-                self.Rf5.place(x = 690, y = 340, width = 105, height = 15)
+                self.Rf1.place(x = 690, y = 135, width = 105, height = 15)
+                self.Rf2.place(x = 690, y = 157, width = 105, height = 15)
+                self.Rf3.place(x = 690, y = 179, width = 105, height = 15)
+                self.Rf4.place(x = 690, y = 201, width = 105, height = 15)
+                self.Rf5.place(x = 690, y = 223, width = 105, height = 15)
 
-                self.Ri1.place(x = 690, y = 375, width = 105, height = 15)
-                self.R.place(x = 690, y = 410, width = 105, height = 15)
-                self.C1.place(x = 690, y = 445, width = 105, height = 15)
+                self.Ri1.place(x = 690, y = 245, width = 105, height = 15)
+                self.Ri2.place(x = 690, y = 267, width = 105, height = 15)
+                self.Ri3.place(x = 690, y = 289, width = 105, height = 15)
+                self.Ri4.place(x = 690, y = 311, width = 105, height = 15)
+                self.Ri5.place(x = 690, y = 333, width = 105, height = 15)
+
+                self.R.place(x = 690, y = 355, width = 105, height = 15)
+                self.C1.place(x = 690, y = 377, width = 105, height = 15)
+                self.C2.place(x = 690, y = 399, width = 105, height = 15)
+                self.C3.place(x = 690, y = 421, width = 105, height = 15)
+                self.C4.place(x = 690, y = 443, width = 105, height = 15)
+
                 # creacion textos
-                self.newCanva.create_text( 630.0, 66, text = "R1             =", fill = "#ffffff", font = ("Calibri", int(12.0)))
-                self.newCanva.create_text( 630.0, 101, text = "R2             =", fill = "#ffffff", font = ("Calibri", int(12.0)))
-                self.newCanva.create_text( 630.0, 136, text = "R3             =", fill = "#ffffff", font = ("Calibri", int(12.0)))
-                self.newCanva.create_text( 630.0, 171, text = "R4             =", fill = "#ffffff", font = ("Calibri", int(12.0)))
+                self.newCanva.create_text( 630.0, 53, text = "R1("+ chr(937)+")             =", fill = "#ffffff", font = ("Calibri", int(12.0)))
+                self.newCanva.create_text( 630.0, 75, text = "R2("+ chr(937)+")             =", fill = "#ffffff", font = ("Calibri", int(12.0)))
+                self.newCanva.create_text( 630.0, 97, text = "R3("+ chr(937)+")             =", fill = "#ffffff", font = ("Calibri", int(12.0)))
+                self.newCanva.create_text( 630.0, 119, text = "R4("+ chr(937)+")            =", fill = "#ffffff", font = ("Calibri", int(12.0)))
 
-                self.newCanva.create_text( 630.0, 206, text = "Rf1            =", fill = "#ffffff", font = ("Calibri", int(12.0)))
-                self.newCanva.create_text( 630.0, 241, text = "Rf2            =", fill = "#ffffff", font = ("Calibri", int(12.0)))
-                self.newCanva.create_text( 630.0, 276, text = "Rf3            =", fill = "#ffffff", font = ("Calibri", int(12.0)))
-                self.newCanva.create_text( 630.0, 311, text = "Rf4            =", fill = "#ffffff", font = ("Calibri", int(12.0)))
-                self.newCanva.create_text( 630.0, 346, text = "Rf5             =", fill = "#ffffff", font = ("Calibri", int(12.0)))
+                self.newCanva.create_text( 630.0, 141, text = "Rf1("+ chr(937)+")            =", fill = "#ffffff", font = ("Calibri", int(12.0)))
+                self.newCanva.create_text( 630.0, 163, text = "Rf2("+ chr(937)+")            =", fill = "#ffffff", font = ("Calibri", int(12.0)))
+                self.newCanva.create_text( 630.0, 185, text = "Rf3("+ chr(937)+")            =", fill = "#ffffff", font = ("Calibri", int(12.0)))
+                self.newCanva.create_text( 630.0, 207, text = "Rf4("+ chr(937)+")            =", fill = "#ffffff", font = ("Calibri", int(12.0)))
+                self.newCanva.create_text( 630.0, 229, text = "Rf5("+ chr(937)+")            =", fill = "#ffffff", font = ("Calibri", int(12.0)))
                 
-                self.newCanva.create_text( 630.0, 381, text = "Ri1-i5         =", fill = "#ffffff", font = ("Calibri", int(12.0)))
-                self.newCanva.create_text( 630.0, 416, text = "R                =", fill = "#ffffff", font = ("Calibri", int(12.0)))
-                self.newCanva.create_text( 630.0, 451, text = "C1-C5         =", fill = "#ffffff", font = ("Calibri", int(12.0)))
+                self.newCanva.create_text( 630.0, 251, text = "Ri1("+ chr(937)+")            =", fill = "#ffffff", font = ("Calibri", int(12.0)))
+                self.newCanva.create_text( 630.0, 273, text = "Ri2("+ chr(937)+")            =", fill = "#ffffff", font = ("Calibri", int(12.0)))
+                self.newCanva.create_text( 630.0, 295, text = "Ri3("+ chr(937)+")            =", fill = "#ffffff", font = ("Calibri", int(12.0)))
+                self.newCanva.create_text( 630.0, 317, text = "Ri4("+ chr(937)+")            =", fill = "#ffffff", font = ("Calibri", int(12.0)))
+                self.newCanva.create_text( 630.0, 339, text = "Ri5("+ chr(937)+")            =", fill = "#ffffff", font = ("Calibri", int(12.0)))
+
+                self.newCanva.create_text( 630.0, 361, text = "R("+ chr(937)+")               =", fill = "#ffffff", font = ("Calibri", int(12.0)))
+                self.newCanva.create_text( 630.0, 383, text = "C1(F)            =", fill = "#ffffff", font = ("Calibri", int(12.0)))
+                self.newCanva.create_text( 630.0, 405, text = "C2(F)            =", fill = "#ffffff", font = ("Calibri", int(12.0)))
+                self.newCanva.create_text( 630.0, 427, text = "C3(F)            =", fill = "#ffffff", font = ("Calibri", int(12.0)))
+                self.newCanva.create_text( 630.0, 449, text = "C4(F)            =", fill = "#ffffff", font = ("Calibri", int(12.0)))
 
                 self.btnSave = Button(self.newCanva, text = "Save", fg = "#ffffff", bg = "#303F40", font = ("Calibri", int(12.0)),   borderwidth = 0, highlightthickness = 0, command = self.btn_saveDesign, relief = "flat")
                 self.btnSave.place(x = 25, y = 480, width = 109, height = 26)
@@ -1016,6 +1057,7 @@ class SummaryWindow:
 if __name__ == "__main__":
     root = Tk()
     root.resizable(False, False)    
-    root.title("Fraxsoft Beta")
+    root.title("Fraxsoft Alfa")
     gui = APP(root)
     root.mainloop()
+    root.destroy()
